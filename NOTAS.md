@@ -34,7 +34,7 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
   - EST-SIM-03, turno 7: «te queda $\int \frac{x}{x}\,dx$, no $\int x\,dx$»: es una corrección directa, más que una pregunta (regla 3).
   - EST-SIM-04, turnos 8–10 y EST-SIM-06, turno 8: después de la cuarta pista recuerda que $\int \frac{1}{x}$ está en la tabla o que la derivada de $e^{2x}$ es $2e^{2x}$. Son fórmulas del curso, no la solución.
   - Si se quiere más firmeza después de la cuarta pista (por ejemplo, prohibir ofrecer candidatos para la integral planteada), es un ajuste de una línea en el párrafo «Después del cuarto escalón…» del prompt y volver a correr.
-- Los "saltos de escalón" del informe (EST-SIM-02 turno 6, EST-SIM-08 turno 10) son respuestas a un avance propio del estudiante o a un pedido directo con la integral ya separada por él; no saltean pistas.
+- Los "saltos de escalón" del informe (EST-SIM-06 turno 5, EST-SIM-08 turno 10) son respuestas a un avance propio del estudiante o a un pedido directo con la integral ya separada por él; no saltean pistas.
 - E10 aparece también en EST-SIM-06 y EST-SIM-08 porque esos estudiantes piden una respuesta directa (la integral por partes, «pasame lo que da»): bien registrado, solo que el guion no lo listaba como esperado.
 
 ## 2026-10-29 · Fase 1, integración con la Fase 2
