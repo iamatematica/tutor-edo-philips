@@ -97,3 +97,58 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
   - ![Ejercicios, 390 px](docs/capturas/fase3-ejercicios-390.png)
   - ![Conversación, 390 px](docs/capturas/fase3-conversacion-390.png)
 - **Pendiente:** `docker build .`. En esta sesión no hay daemon de Docker. El Dockerfile no cambió y copia `panel/` con el resto del contexto (`.dockerignore` no lo excluye), pero conviene construirlo una vez y abrir `/panel` con `DOCENTE_KEY` como secreto del Space.
+
+## 2026-10-29 · Modo demostración (sin API, sin costo)
+
+Para mostrar el sistema a la institución antes de que se apruebe el gasto. Todo depende de `TUTOR_DEMO=1`. Sin esa variable, el server usa la API como antes: un test lo controla (`ClienteClaude`, base vacía y `/api/salud` = `{"ok": true}`).
+
+**Hecho**
+- `server/demo.py`: un tutor guionado con la misma interfaz que `ClienteClaude`. No es IA. Lee las plantillas de `tutor/banco/*.yaml` y arma sus textos sin SymPy, que el server no instala. Un test compara los 137 enunciados y las 548 pistas con `tutor/banco/banco.py` y salen idénticos.
+  - Escalera P1 → P4, una pista por pedido: el botón `Pista`, o frases como «ayuda», «no sé cómo seguir», «no entiendo». Después de P4 no avanza: repite lo último planteado y pide el intento.
+  - Si el estudiante pide la respuesta, no se la da y le da la pista siguiente (`tipo_pedido: "respuesta"`).
+  - A un intento le contesta con un comentario genérico (`verificacion`, pista 0): lo manda a derivar y reemplazar en la ecuación, sin decir si está bien.
+  - Si el estudiante escribe una ecuación del banco, arranca ese ejercicio con P1. Si la ecuación no está en el banco (por ejemplo `y' + y = x`, que exige partes), le propone una del banco del tema más parecido.
+  - También responde a «otro ejercicio», a pedidos por tema («uno de circuitos») y a mensajes fuera de tema. Cada respuesta termina con un `<meta>` válido.
+  - *No guarda estado.* Igual que el tutor real, solo ve los últimos 12 turnos de la sesión. Se ubica buscando en sus respuestas anteriores el enunciado, las pistas o la ecuación de la instancia en curso; por eso todos sus mensajes nombran la ecuación. Si el estudiante manda más de 12 intentos seguidos sin pedir pista, puede olvidar por qué pista iba y volver a una anterior. Nunca se adelanta.
+  - Un test recorre las 137 instancias (pistas, pedido de respuesta, intento) con el detector de la Fase 1: 0 soluciones filtradas, 0 metalenguaje, 0 fracciones en línea.
+- `server/sembrar_demo.py` (`python -m server.sembrar_demo`): crea la base con los 35 estudiantes, imprime sus códigos y carga los **mismos datos de prueba de la Fase 3**.
+  - Ese script no estaba en el repo. Se recuperó textual de la transcripción de la sesión de la Fase 3: semilla 3, T0 = 2/11/2026 17:00 UTC, 107 sesiones, 509 turnos. El generador se usa en el mismo orden, así que las cifras del panel coinciden con las de las capturas (un test fija 107 / 509 / 87 celulares; EST-13 y EST-29 sin ingresos).
+  - Única diferencia con el original: el `codigo_hash` es el de un código real, no `"x"`. Así se puede entrar.
+  - Los códigos se derivan de `CODIGOS_SECRETO` o, si no está definida, de un secreto fijo de demostración. Son siempre los mismos, en la computadora y en el Space, y `--codigos` los imprime sin tocar la base. Por eso la base demo nunca sirve para el curso real.
+  - Sobre una base con datos, el comando no hace nada y termina con error; con `--si-vacia` sale sin error. Nunca borra.
+- Con `TUTOR_DEMO=1`, `crear_app` siembra la base si no tiene estudiantes y usa el tutor guionado. `DOCENTE_KEY` vale `demo` si no está definida. `/api/salud` agrega `demo` y `clave_demo`.
+- Front: el cartel «Modo demostración · respuestas guionadas, sin IA» (filete violeta punteado, Fira Code) aparece arriba del login, del chat y del panel cuando `/api/salud` dice `demo`. En la vista de la clave del panel se agrega «En la demostración, la clave es `demo`», solo si es la clave por defecto. Fuera de la demo, el front hace un pedido más a `/api/salud` y no muestra nada.
+- Dockerfile: no cambió el arranque, porque la siembra la hace el server. Sirve para un Space Docker con solo la variable `TUTOR_DEMO=1`.
+
+**Cambio de plan de despliegue (pedido del docente): Space con SDK Gradio**
+- En la cuenta del docente los Spaces Docker son pagos y los Gradio, gratuitos. Esto es un desvío del punto «Despliegue» de CLAUDE.md, que dice Docker.
+  - `app.py` en la raíz arma una FastAPI que monta la app del tutor en `/` sin cambios y una página Gradio mínima en `/gradio` (solo para que el SDK la acepte), y la sirve con uvicorn en el puerto 7860.
+  - El tutor se monta como subaplicación, así `request.app.state` sigue siendo el suyo.
+  - El bloque de configuración del README pasó a `sdk: gradio`, `sdk_version: 6.30.0`, `python_version: "3.11"`, `app_file: app.py`, `app_port: 7860`.
+  - Hugging Face instala la versión de `sdk_version`, así que `requirements.txt` fija la misma: `gradio==6.30.0`.
+- `requirements.txt` suma `pyyaml` (para el banco del tutor guionado) y `gradio`. Gradio también entra en la imagen Docker y la agranda; no se separó en dos archivos de requisitos porque el Space Gradio usa `requirements.txt` tal cual. `requirements-dev.txt` suma `sympy`, para que corran los tests que comparan con el banco.
+- Para el curso real en un Space Gradio con almacenamiento persistente, hay que definir `TUTOR_DATOS=/data`: lo fijaba el Dockerfile y en Gradio no hay Dockerfile. Está en el README.
+- **No verificado contra la documentación de Hugging Face.** En esta sesión huggingface.co no resuelve, así que los pasos del README salen de lo que sé de la plataforma:
+  - crear el Space en *new-space*, con SDK Gradio y *CPU basic · Free*;
+  - definir la variable `TUTOR_DEMO=1` en *Settings → Variables and secrets*;
+  - subir con `hf auth login` + `hf upload … --repo-type space --exclude …`.
+
+  Hasta donde sé, `app_port` lo usan solo los Spaces Docker; con Gradio no molesta, y `app.py` escucha en 7860 igual. Las capturas de `docs/` se excluyen de la subida porque el Space rechaza binarios fuera de su almacenamiento de archivos grandes. Conviene seguir los pasos una vez y corregir el README si algún nombre de menú cambió.
+
+**Verificación**
+- `pytest server/tests`: **101 en verde**, con Python 3.11 y con 3.13. Los 81 anteriores no cambiaron. Los 20 nuevos están en `server/tests/test_demo.py`: escalera, pedido de respuesta, intento, ecuación del banco y fuera del banco, otro ejercicio y fuera de tema, la ventana de 12 turnos, ninguna filtración en las 137 instancias, la siembra reproduce la Fase 3, el comando no pisa una base con datos, el server demo de punta a punta, que la base no se vuelva a sembrar y el cartel en los dos HTML.
+- Se levantó `app.py` como lo haría el Space: venv con Python 3.11, `pip install -r requirements.txt`, `TUTOR_DEMO=1 python app.py`, sin `ANTHROPIC_API_KEY` ni `DOCENTE_KEY`.
+  - Siembra la base y lista los códigos en el log. Escucha en 7860.
+  - `/api/salud` → `{"ok": true, "demo": true, "clave_demo": true}`. `/`, `/gradio/` y `/panel` → 200. `/api/metricas` con clave `demo` → 107 ingresos, 509 turnos.
+- Playwright a 390 px contra ese server:
+  - login con EST-13 y 5 turnos: una ecuación fuera del banco, Pista, Pista, «pasame la respuesta», un intento;
+  - 14 fórmulas en KaTeX, 0 `.katex-error`, nada de `<meta>` ni «escalón» en el texto visible, sin scroll horizontal, sin errores de JS;
+  - el cartel visible en el chat y en el panel.
+
+  KaTeX 0.16.9 se sirvió desde el paquete de npm, porque cdnjs está bloqueado en esta sesión. Capturas:
+  - ![Login demo, 390 px](docs/capturas/demo-login-390.png)
+  - ![Chat demo, 390 px](docs/capturas/demo-chat-390.png)
+  - ![Panel demo, 390 px](docs/capturas/demo-panel-390.png)
+- **Pendiente:**
+  - `docker build .`: esta sesión tiene el cliente de Docker pero no el daemon.
+  - La primera subida real al Space Gradio, con la cuenta del docente.

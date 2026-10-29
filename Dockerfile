@@ -1,5 +1,7 @@
 # Tutor de Ecuaciones Diferenciales · Hugging Face Spaces (Docker) o cualquier host.
 # Secretos: ANTHROPIC_API_KEY (obligatorio), DOCENTE_KEY, CODIGOS_SECRETO.
+# Modo demostración: solo la variable TUTOR_DEMO=1, sin secretos. El server arranca
+# con el tutor guionado y, si la base de /data está vacía, siembra la base demo.
 FROM python:3.11-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

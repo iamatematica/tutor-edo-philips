@@ -47,6 +47,14 @@ TOPE_MENSUAL_USD = 200
 # Estudiantes del curso: EST-01 … EST-35.
 N_ESTUDIANTES = 35
 
+# Modo demostración (TUTOR_DEMO=1): tutor guionado sin API ni costo, base sembrada
+# con datos inventados y clave del panel "demo" si no se define DOCENTE_KEY.
+DOCENTE_KEY_DEMO = "demo"
+
+
+def _demo_activo() -> bool:
+    return os.environ.get("TUTOR_DEMO", "").strip().lower() in {"1", "true", "si", "sí"}
+
 
 @dataclass
 class Ajustes:
@@ -55,6 +63,8 @@ class Ajustes:
         default_factory=lambda: Path(os.environ.get("TUTOR_SYSTEM_PROMPT", RAIZ / "tutor" / "system_prompt.md"))
     )
     placeholder: Path = RAIZ / "server" / "system_prompt_placeholder.md"
+    banco: Path = RAIZ / "tutor" / "banco"
+    demo: bool = field(default_factory=_demo_activo)
     web: Path = RAIZ / "web"
     panel: Path = RAIZ / "panel"
     modelo: str = field(default_factory=lambda: os.environ.get("TUTOR_MODELO", MODELO))
@@ -75,6 +85,10 @@ class Ajustes:
         default_factory=lambda: float(os.environ.get("TUTOR_COSTO_MEDIO_TURNO", COSTO_MEDIO_TURNO_USD))
     )
     tope_mensual: float = TOPE_MENSUAL_USD
+
+    def __post_init__(self):
+        if self.demo and not self.docente_key:
+            self.docente_key = DOCENTE_KEY_DEMO
 
     @property
     def db(self) -> Path:

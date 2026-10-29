@@ -5,6 +5,8 @@ import tempfile
 # directorio temporal para no tocar datos/ del repo.
 os.environ.setdefault("TUTOR_DATOS", tempfile.mkdtemp(prefix="tutor-test-"))
 os.environ.pop("CODIGOS_SECRETO", None)
+os.environ.pop("TUTOR_DEMO", None)
+os.environ.pop("DOCENTE_KEY", None)
 
 from datetime import datetime, timedelta, timezone
 

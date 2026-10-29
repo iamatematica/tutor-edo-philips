@@ -382,6 +382,11 @@
   if (sesion.token) abrirChat();
   else mostrar('login');
 
+  // Modo demostración: el server lo informa en /api/salud y el cartel queda a la vista.
+  fetch('/api/salud', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.demo) $('#cartel-demo').hidden = false;
+  }).catch(function () {});
+
   // Para pruebas automatizadas del renderizado.
   window.__tutor = { renderizar: renderizar, respaldo: TexARespaldo.convertir };
 })();

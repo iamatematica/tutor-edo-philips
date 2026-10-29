@@ -3,7 +3,10 @@ title: Tutor de Ecuaciones Diferenciales
 emoji: 📐
 colorFrom: blue
 colorTo: yellow
-sdk: docker
+sdk: gradio
+sdk_version: 6.30.0
+python_version: "3.11"
+app_file: app.py
 app_port: 7860
 pinned: false
 ---
@@ -12,7 +15,7 @@ pinned: false
 
 Tutor conversacional para la unidad Ecuaciones Diferenciales de primer orden. Orienta con pistas, no califica y no da la respuesta final. El contrato completo del proyecto está en [`CLAUDE.md`](CLAUDE.md); las decisiones y desvíos, en [`NOTAS.md`](NOTAS.md).
 
-> El bloque de arriba (entre `---`) es la configuración que lee Hugging Face Spaces. En GitHub se ve como una tabla; no hace falta tocarlo.
+> El bloque de arriba (entre `---`) es la configuración que lee Hugging Face Spaces. En GitHub se ve como una tabla. Está preparado para un Space **Gradio** (gratuito): el Space corre `app.py`, que monta la app del tutor. Para un Space Docker, cambiar `sdk: gradio` por `sdk: docker` y borrar `sdk_version`, `python_version` y `app_file`.
 
 ## Qué hay
 
@@ -22,7 +25,8 @@ Tutor conversacional para la unidad Ecuaciones Diferenciales de primer orden. Or
 | `web/` | Front estático (HTML + CSS + JS, sin build): login `EST-NN` + código, chat con KaTeX y botón **Pista** |
 | `panel/` | Panel docente estático (`/panel`): métricas del curso y por estudiante, conversaciones completas, exportación CSV |
 | `tutor/` | System prompt, banco de ejercicios y evaluación (Fase 1) |
-| `Dockerfile` | Imagen para Hugging Face Spaces (puerto 7860) o cualquier host |
+| `app.py` | Arranque para un Space Gradio: monta la app del tutor y sirve en el puerto 7860 |
+| `Dockerfile` | Imagen para un Space Docker (puerto 7860) o cualquier host |
 
 ## Arranque local
 
@@ -66,7 +70,7 @@ Los tests no llaman a la API: reemplazan al tutor por uno falso.
 
 | Variable | Para qué | Por defecto |
 |---|---|---|
-| `ANTHROPIC_API_KEY` | Clave de la API de Claude (**obligatoria**, nunca en el repo) | — |
+| `ANTHROPIC_API_KEY` | Clave de la API de Claude (**obligatoria**, salvo en modo demostración; nunca en el repo) | — |
 | `CODIGOS_SECRETO` | Si está definida, los códigos se derivan de este secreto y el server arma solo la tabla de estudiantes al arrancar | sin definir: códigos aleatorios con `generar_codigos` |
 | `TUTOR_DATOS` | Carpeta de la base `tutor.db` y de `codigos.txt` | `datos/` (en Docker, `/data`) |
 | `TUTOR_N_ESTUDIANTES` | Cantidad de estudiantes | `35` |
@@ -77,6 +81,7 @@ Los tests no llaman a la API: reemplazan al tutor por uno falso.
 | `TUTOR_SYSTEM_PROMPT` | Ruta del system prompt | `tutor/system_prompt.md` |
 | `DOCENTE_KEY` | Clave del panel docente. Sin ella, el panel queda deshabilitado | — |
 | `TUTOR_COSTO_MEDIO_TURNO` | Costo medio por turno en US$, para el indicador de costo del panel | `0.006` |
+| `TUTOR_DEMO` | `1`: modo demostración (tutor guionado sin API, base demo, clave del panel `demo`). Ver [Modo demostración](#modo-demostración) | sin definir |
 
 El system prompt se lee de `tutor/system_prompt.md` en cada arranque. Si todavía no existe, el server usa `server/system_prompt_placeholder.md` y lo avisa en el log.
 
@@ -89,11 +94,80 @@ Otros parámetros fijos (memoria de 12 turnos, sesión cerrada a los 20 minutos 
 - **Tope mensual en la consola de la API: 200 US$ para el piloto.** Se fija en la consola ([platform.claude.com](https://platform.claude.com)), en los límites de gasto de la organización o del workspace de la clave. El server no lo controla: es la red de seguridad por si algo se dispara. Referencia: 35 alumnos × 3 sesiones por semana × 80 turnos × 4 semanas ≈ 200 US$ con Sonnet 5.5 como techo.
 - `COSTO_MEDIO_TURNO_USD` en `server/config.py` (0,006 US$ al arrancar) alimenta el indicador de costo del panel docente. Conviene recalibrarlo con el gasto real de la primera semana.
 
+## Modo demostración
+
+Para mostrar el sistema a la institución **sin clave de la API y sin costo**. Con `TUTOR_DEMO=1`:
+
+- el server arranca sin `ANTHROPIC_API_KEY` y la llamada a la API se reemplaza por un **tutor guionado** (`server/demo.py`), que no es una IA: propone ejercicios del banco (`tutor/banco/*.yaml`), da sus pistas en orden (una por pedido, con el botón **Pista** o pidiendo ayuda), después de la cuarta no avanza y pide el intento, contesta los intentos con un comentario genérico que no da la solución, y si el estudiante escribe una ecuación que no está en el banco le propone una del banco. Cada respuesta lleva su `<meta>`, como el tutor real;
+- el chat y el panel muestran el cartel **«Modo demostración · respuestas guionadas, sin IA»**;
+- si la base está vacía, se siembra sola con los 35 estudiantes y los datos inventados que se usaron para las capturas del panel (107 sesiones, 509 turnos, del 2 al 18 de noviembre de 2026);
+- la clave del panel es `demo`, salvo que se defina `DOCENTE_KEY`.
+
+Sin `TUTOR_DEMO`, nada de esto cambia el comportamiento del tutor.
+
+**Los datos son inventados y los códigos de la demo son siempre los mismos** (salen de un secreto fijo, salvo que se defina `CODIGOS_SECRETO`): esta base es solo para mostrar, nunca para el curso.
+
+### Local, en tres comandos
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python -m server.sembrar_demo
+```
+
+```bash
+TUTOR_DEMO=1 uvicorn server.app:app
+```
+
+El segundo comando crea `datos/tutor.db` e imprime los 35 códigos. Abrir <http://localhost:8000>: para chatear con el historial vacío, entrar como `EST-13` o `EST-29` (los dos únicos que no tienen sesiones sembradas); el resto ya trae conversaciones inventadas. El panel está en <http://localhost:8000/panel>, con la clave `demo`.
+
+- `python -m server.sembrar_demo --codigos` imprime los códigos sin tocar la base.
+- Sobre una base con datos, el comando no hace nada y avisa: para empezar de cero, borrar `datos/tutor.db` (si es de prueba) o usar otra carpeta con `TUTOR_DATOS=otra-carpeta`.
+- Para probarlo igual que en el Space: `TUTOR_DEMO=1 python app.py` y abrir <http://localhost:7860>.
+
+### Publicarlo en un Space de Hugging Face gratuito (SDK Gradio)
+
+En la cuenta del docente los Spaces Docker son pagos y los Gradio son gratuitos, así que la demo va en un Space **Gradio**. El Space corre `python app.py`. Ese archivo monta la app FastAPI del tutor en `/`, le agrega una página Gradio mínima en `/gradio` (solo para que el SDK la acepte) y sirve todo con uvicorn en el puerto 7860. El bloque de configuración del principio de este README ya dice `sdk: gradio`, `app_file: app.py` y `app_port: 7860`.
+
+1. **Crear el Space.** Con la sesión iniciada en <https://huggingface.co>, ir a <https://huggingface.co/new-space> y completar:
+   - *Space name*: por ejemplo `tutor-edo-demo`.
+   - *Select the Space SDK*: **Gradio**, plantilla *Blank*.
+   - *Space hardware*: **CPU basic · Free**.
+   - *Public* o *Private* (si es privado, solo entran quienes tengan acceso a la cuenta; para mostrarlo a la institución sin cuentas, *Public*).
+
+   Apretar *Create Space*.
+2. **Definir la variable.** En el Space: *Settings → Variables and secrets → New variable*. Nombre `TUTOR_DEMO`, valor `1`. Es una **variable**, no un secreto: la demo no lleva ninguna clave. No cargar `ANTHROPIC_API_KEY`.
+3. **Crear un token.** En <https://huggingface.co/settings/tokens>, *Create new token* con permiso de escritura (*Write*). Copiarlo.
+4. **Subir el repositorio** desde la carpeta del proyecto, en la computadora:
+
+   ```bash
+   pip install -U huggingface_hub
+   ```
+
+   ```bash
+   hf auth login
+   ```
+
+   (pegar el token cuando lo pida) y, cambiando `USUARIO` por el nombre de la cuenta:
+
+   ```bash
+   hf upload USUARIO/tutor-edo-demo . . --repo-type space --exclude "datos/*" "docs/*" ".git/*" ".claude/*" ".venv/*" "**/__pycache__/*"
+   ```
+
+   Se excluyen `datos/` (la base local y los códigos), las capturas de `docs/` (el Space rechaza imágenes subidas fuera de su almacenamiento de archivos grandes y no hacen falta) y las carpetas de trabajo. Para actualizar el Space después de un cambio, repetir el mismo `hf upload`.
+5. **Esperar el arranque.** En la pestaña *Logs* del Space se ve la instalación y, al final, `MODO DEMOSTRACIÓN` y la lista de los 35 códigos. Cuando el estado pasa a *Running*, abrir el Space: el chat está en `https://USUARIO-tutor-edo-demo.hf.space` y el panel en `https://USUARIO-tutor-edo-demo.hf.space/panel` (clave `demo`). Los códigos también salen en la computadora con `python -m server.sembrar_demo --codigos`.
+
+En el plan gratuito el disco del Space no es persistente y el Space se duerme tras un tiempo sin visitas: al despertar o reiniciarse arranca con la base vacía y la vuelve a sembrar (mismos códigos y mismos datos; se pierde lo que se haya chateado en la demo). Para la demo eso alcanza; para el curso real va el despliegue de abajo, con almacenamiento persistente y la clave de la API.
+
 ## Despliegue en Hugging Face Spaces
 
-1. Crear un Space de tipo **Docker** y subir este repositorio (el `README.md` ya trae la configuración).
+Para el curso real, con la API de Claude.
+
+1. Crear el Space y subir este repositorio. Con un Space **Gradio** (como la demo) el bloque de configuración sirve tal cual; con uno **Docker**, cambiarlo como dice la nota del principio.
 2. En *Settings → Variables and secrets*, cargar como **secretos** `ANTHROPIC_API_KEY`, `CODIGOS_SECRETO` y, para la Fase 3, `DOCENTE_KEY`.
-3. En *Settings → Persistent storage*, activar el almacenamiento persistente: se monta en `/data`, que es donde la imagen guarda la base. **Sin almacenamiento persistente, las conversaciones se pierden cada vez que el Space se reinicia.**
+3. En *Settings → Persistent storage*, activar el almacenamiento persistente: se monta en `/data`, que es donde la imagen Docker guarda la base; en un Space Gradio, agregar además la variable `TUTOR_DATOS=/data`. **Sin almacenamiento persistente, las conversaciones se pierden cada vez que el Space se reinicia.**
 4. En la computadora del docente, con el mismo secreto, generar la hoja de códigos para imprimir:
 
    ```bash
@@ -120,7 +194,7 @@ docker run -p 7860:7860 -e ANTHROPIC_API_KEY=sk-ant-... -e CODIGOS_SECRETO=... -
 | `POST /api/logout` | — | `{"ok": true}` |
 | `POST /api/mensaje` | `{"texto": "...", "pista": false}` | `{"respuesta", "etiqueta_pista", "limite_alcanzado"}` |
 | `GET /api/historial` | — | `{"id", "mensajes": [{"rol", "texto", "pista", "creado"}], "etiqueta_pista"}` |
-| `GET /api/salud` | — | `{"ok": true}` |
+| `GET /api/salud` | — | `{"ok": true}`; con `TUTOR_DEMO=1`, además `"demo": true` y `"clave_demo"` (si la clave del panel es `demo`) |
 
 | `GET /api/metricas` | — | métricas del curso, por estudiante, por ejercicio, errores y costo |
 | `GET /api/metricas/conversacion/EST-07` | — | todas las sesiones del estudiante con sus mensajes y el `<meta>` de cada respuesta |

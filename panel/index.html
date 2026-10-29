@@ -36,6 +36,8 @@
 
 <main class="principal panel">
 
+  <p id="cartel-demo" class="cartel-demo" role="note" hidden>Modo demostración · respuestas guionadas, sin IA</p>
+
   <section id="vista-clave" class="vista" hidden>
     <div class="tarjeta login">
       <div class="badge">Docente</div>
@@ -44,6 +46,7 @@
       <form id="form-clave" novalidate>
         <label for="campo-clave">Clave de docente</label>
         <input id="campo-clave" name="clave" type="password" autocomplete="current-password" spellcheck="false" required>
+        <p id="clave-demo" class="nota" hidden>En la demostración, la clave es <code>demo</code>.</p>
         <p id="error-clave" class="aviso" role="alert" hidden></p>
         <button type="submit" class="boton boton-primario" id="boton-clave">Entrar</button>
       </form>
