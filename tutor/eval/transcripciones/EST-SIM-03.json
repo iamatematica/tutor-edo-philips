@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-03",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T16:13:36",
+  "prompt_sha": "33d834d01509",
+  "turnos": [
+    {
+      "estudiante": "tengo $y' - \\frac{y}{x} = x$ con $y(1) = 2$, no sé cómo arrancar",
+      "tutor": "¡Vamos con esa! Para arrancar, mirala con la forma $y' + P\\,y = Q$ en la cabeza: ¿quién hace de $P$ y quién de $Q$? Ojo con el signo.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ok, $P = -\\frac{1}{x}$ y $Q = x$",
+      "tutor": "¡Bien, con el signo y todo! Ahora proponé $y = u \\cdot v$: primero buscá un $v$ que anule todo lo que queda multiplicado por $u$, o sea que cumpla $v' - \\frac{v}{x} = 0$. ¿Qué $v$ te sale?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "para v puse $v' - \\frac{v}{x} = 0$ y me dio $v = Cx$",
+      "tutor": "La forma $x$ está bien encaminada. Pero pensá esto: en el método $y = u \\cdot v$, ¿para qué necesitás un $v$ cualquiera que anule ese término? ¿Hace falta que $v$ lleve constante, o la constante ya va a aparecer cuando integres $u$?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ah, sin constante: $v = x$. después hice $u' = Q$, así que $u = \\frac{x^2}{2} + C$",
+      "tutor": "¡Bien el $v = x$! Ahora fijate en el paso de $u$: si reemplazás $y = u \\cdot v$ en la ecuación, después de anular lo que multiplica a $u$, ¿qué queda del lado izquierdo? ¿Es $u' = Q$ o $u' \\cdot v = Q$?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "entonces la respuesta es $u = \\frac{x^2}{2} + C$",
+      "tutor": "Pará un poquito, que ahí hay dos cosas para mirar. Con $y = u \\cdot v$ y $v = x$, al reemplazar te queda $u' \\cdot x = x$. Con eso, ¿cuánto vale $u'$ en realidad? Y otra pregunta para después: lo que buscás al final, ¿es $u$ o es $y$?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 3, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "bueno, $y = u \\cdot v = \\frac{x^3}{2} + Cx$",
+      "tutor": "Bien que multiplicaste por $v$. Verifiquemos derivando: si $y = \\frac{x^3}{2} + Cx$, entonces $y' = \\frac{3x^2}{2} + C$ y $\\frac{y}{x} = \\frac{x^2}{2} + C$, así que $y' - \\frac{y}{x} = x^2$, y no $x$. La diferencia viene de $u$: de $u' \\cdot x = x$, ¿cuánto vale $u'$ antes de integrar?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 3, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no entiendo por qué está mal",
+      "tutor": "Tranqui, vamos despacio. Vos integraste $Q = x$, pero lo que hay que integrar es $\\frac{Q}{v}$, porque la ecuación de $u$ es $u' \\cdot x = x$. Te queda planteado $u = \\int \\frac{x}{x}\\,dx$. Escribime qué te da esa integral y cómo queda $y = u \\cdot v$, y lo miramos juntos.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E07\", \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra pista",
+      "tutor": "Otra pista: antes de integrar, simplificá lo de adentro. ¿Cuánto da $\\frac{x}{x}$? Con eso la integral es de las más inmediatas que hay; probá y escribime lo que te dé.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "¿entonces es $u' \\cdot x = x$?",
+      "tutor": "¡Exacto, esa es la ecuación para $u$! Fijate que sale de reemplazar $y = u \\cdot v$: el término con $u$ se anula por cómo elegiste $v$, y queda solo $u' \\cdot v = Q$. Ahora despejá $u'$ de $u' \\cdot x = x$, integrá, y contame qué te da.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "me da $u = x + K$, así que $y = x^2 + Kx$",
+      "tutor": "¡Muy bien! Verifiquemos derivando: $y' = 2x + K$ y $\\frac{y}{x} = x + K$, así que $y' - \\frac{y}{x} = x$, que es justo el segundo miembro: tu solución general está bien. Te falta un detalle: usá el dato $y(1) = 2$ para encontrar $K$ y contame qué te queda.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    }
+  ]
+}

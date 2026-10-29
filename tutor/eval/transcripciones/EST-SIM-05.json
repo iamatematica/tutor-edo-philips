@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-05",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T16:13:37",
+  "prompt_sha": "33d834d01509",
+  "turnos": [
+    {
+      "estudiante": "hola! voy a hacer $y' + 3y = 12$ con $y(0) = 1$",
+      "tutor": "¡Hola! Buenísimo, dale. Para arrancar: ¿qué forma tiene la ecuación? ¿Quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$P = 3$ y $Q = 12$. propongo $y = uv$",
+      "tutor": "¡Bien leído! $P = 3$ y $Q = 12$. Reemplazá $y = uv$ en la ecuación (derivando con la regla del producto): ¿qué te queda?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$v' + 3v = 0$, así que $v = e^{-3x}$",
+      "tutor": "Perfecto: si derivás $v = e^{-3x}$ te da $v' = -3e^{-3x}$, y sumándole $3v$ se anula. Y bien que no le pusiste constante. Ahora, con ese $v$, ¿qué ecuación te queda para $u'$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "queda $u'e^{-3x} = 12$, o sea $u' = 12e^{3x}$",
+      "tutor": "¡Muy bien, despejaste bien dividiendo por $v$! Ahora integrá para sacar $u$: ¿qué te da?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "integrando, $u = 4e^{3x} + K$",
+      "tutor": "Bien: si derivás $4e^{3x} + K$ te vuelve a dar $12e^{3x}$, así que la integral está. Acordate de que eso es $u$, no $y$: ¿cómo te queda $y$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "entonces $y = uv = 4 + Ke^{-3x}$",
+      "tutor": "Verifiquémosla derivando: si $y = 4 + Ke^{-3x}$, entonces $y' = -3Ke^{-3x}$, y $y' + 3y = -3Ke^{-3x} + 12 + 3Ke^{-3x} = 12$. ¡Cierra para todo $K$! Ahora sí, usá $y(0) = 1$: ¿cuánto vale $K$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "con $y(0) = 1$: $1 = 4 + K$, $K = -3$, y queda $y = 4 - 3e^{-3x}$",
+      "tutor": "¡Excelente! Tu $y = 4 - 3e^{-3x}$ cumple la ecuación (ya vimos que la familia la cumple para cualquier $K$) y en $x = 0$ da $4 - 3 = 1$, así que cumple la condición inicial. ¿Querés seguir con una que tiene una vuelta más? Probá $y' + y = e^{x}$ con el método $y = u \\cdot v$ y $y(0) = 1$.\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "¿cómo lo verifico?",
+      "tutor": "Siempre igual, en dos partes: primero derivás tu función y reemplazás $y$ e $y'$ en $y' + 3y$, para ver si te da $12$ para todo $x$ (no alcanza con probar un punto). Después mirás la condición inicial reemplazando $x = 0$. Probá vos: ¿cuánto te da la derivada de $4 - 3e^{-3x}$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "$y' = 9e^{-3x}$ y $y' + 3y = 9e^{-3x} + 12 - 9e^{-3x} = 12$, da",
+      "tutor": "¡Exacto! Da $12$ para todo $x$, y con $y(0) = 1$ cumple también la condición: la verificaste vos solo. Cuando quieras, arrancá con $y' + y = e^{x}$, $y(0) = 1$: ¿quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "genial, ¿qué hago ahora?",
+      "tutor": "Te propongo seguir con esta: resolvé $y' + y = e^{x}$ con el método $y = u \\cdot v$ y hallá la solución que cumple $y(0) = 1$. Para arrancar, ¿cuánto valen $P$ y $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    }
+  ]
+}

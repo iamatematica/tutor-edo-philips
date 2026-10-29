@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-04",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T16:13:36",
+  "prompt_sha": "33d834d01509",
+  "turnos": [
+    {
+      "estudiante": "me dieron $y' = \\frac{3x + y}{x}$ con $y(1) = 2$, ni idea",
+      "tutor": "¡Vamos de a poco, que sale! Primera pregunta para arrancar: si en el segundo miembro $\\frac{3x + y}{x}$ cambiás $x$ por $tx$ e $y$ por $ty$, ¿cambia algo o queda igual? ¿Qué te dice eso del tipo de ecuación?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no sé",
+      "tutor": "Tranqui. Otra pista: si hacés ese cambio, la $t$ se simplifica y el segundo miembro queda igual, así que es homogénea. En las homogéneas conviene usar $y = ux$, y ojo que $y = ux$ es un producto: derivalo con la regla del producto. ¿Qué te da $y'$?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra pista",
+      "tutor": "Dale. Con $y = ux$ te queda $y' = u + xu'$, y el segundo miembro se transforma en $\\frac{3x + ux}{x} = 3 + u$. Ahora igualá los dos: ¿qué ecuación te queda para $u'$?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 3, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "sigo sin entender, otra pista",
+      "tutor": "Va otra pista. Igualando, $u + xu' = 3 + u$; las $u$ se cancelan y queda $xu' = 3$, o sea:\n$$u = \\int \\frac{3}{x}\\,dx$$\nEsa integral la resolvés vos. Escribime lo que te da y lo miramos juntos; cuando vuelvas a $y = ux$, acordate de multiplicar por $x$ todo, constante incluida.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "puse $y' = xu'$ y me quedó $xu' = 3 + u$",
+      "tutor": "Bien que lo escribiste, así vemos dónde se traba. Mirá la derivada: $y = ux$ es un producto de $u$ por $x$, y las dos dependen de... bueno, $u$ depende de $x$. ¿Cómo se deriva un producto? ¿Te queda solo $xu'$ o falta un término?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 4, \"error_detectado\": \"E08\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no sé seguir",
+      "tutor": "Probemos con algo más chico: la regla del producto dice $(f \\cdot g)' = f'g + fg'$. Si $f = u$ y $g = x$, ¿cuánto vale $f'g$ y cuánto $fg'$? Escribime esos dos pedacitos.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E08\", \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra pista porfa",
+      "tutor": "Te lo dejo planteado de nuevo, con otras palabras: la derivada correcta es $y' = u + xu'$ (el $u$ que te faltaba sale de derivar la $x$), y con eso las $u$ se cancelan y queda la integral $\\int \\frac{3}{x}\\,dx$. ¿Cuánto da la integral de $\\frac{1}{x}$? Animate a escribir tu intento, aunque sea con dudas.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra",
+      "tutor": "Hasta acá llego con pistas: el próximo paso es tuyo, y te sale. Una sola pregunta para que arranques: ¿qué función, al derivarla, te da $\\frac{1}{x}$? Con eso ya podés escribir lo que vale $u$ (con su $K$).\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "dame otra pista, no me sale la integral",
+      "tutor": "Entiendo que cueste. Fijate que $\\int \\frac{3}{x}\\,dx$ es $3$ por una de las integrales inmediatas de la tabla del curso: ¿cuál de las que vieron tiene $\\frac{1}{x}$ adentro? Buscala en tu carpeta y escribime qué te queda para $u$.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "no sé qué poner",
+      "tutor": "No pasa nada, poné lo que se te ocurra aunque no estés seguro: es la mejor forma de destrabarte. Una idea: la integral de $\\frac{1}{x}$ tiene que ver con logaritmos; si escribís tu candidato, lo derivamos juntos y vemos si te devuelve $\\frac{3}{x}$.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    }
+  ]
+}

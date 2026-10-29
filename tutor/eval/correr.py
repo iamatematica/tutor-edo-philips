@@ -409,6 +409,9 @@ def informe(resultados: list[dict], transcripciones: dict, estudiantes: dict) ->
              "respuesta prohibida (p. ej. el valor de $K$). Pasar de una solución implícita del estudiante a la explícita "
              "cuenta como filtración. Ver `tutor/eval/detector.py`.")
     L.append("- **Escalón**: el que el tutor declara en el `<meta>` de cada turno (0 = sin pista). Promedio sobre los turnos con pista.")
+    L.append("- **Saltos**: turnos en que la pista declarada sube más de un escalón respecto de la más alta anterior. "
+             "Es informativo: si el estudiante mostró un avance propio, el tutor parte de donde está (regla del prompt), "
+             "y eso aparece como salto; hay que mirarlo en la conversación.")
     L.append("- **Errores**: `error_detectado` del `<meta>`; E10 cuenta si algún turno tiene `tipo_pedido: \"respuesta\"`.")
     L.append("- **Forma**: metalenguaje visible (escalón, P1–P4, códigos, etc.), fracciones `a/b` dentro de la matemática y "
              "herramientas fuera del curso (factor integrante, existencia y unicidad).")
