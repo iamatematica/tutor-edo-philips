@@ -20,6 +20,7 @@ Tutor conversacional para la unidad Ecuaciones Diferenciales de primer orden. Or
 |---|---|
 | `server/` | FastAPI + SQLite: login seudonimizado, chat, extracción del metadato `<meta>` de cada respuesta |
 | `web/` | Front estático (HTML + CSS + JS, sin build): login `EST-NN` + código, chat con KaTeX y botón **Pista** |
+| `panel/` | Panel docente estático (`/panel`): métricas del curso y por estudiante, conversaciones completas, exportación CSV |
 | `tutor/` | System prompt, banco de ejercicios y evaluación (Fase 1) |
 | `Dockerfile` | Imagen para Hugging Face Spaces (puerto 7860) o cualquier host |
 
@@ -74,7 +75,8 @@ Los tests no llaman a la API: reemplazan al tutor por uno falso.
 | `TUTOR_MODELO` | Modelo de Claude | `claude-sonnet-5-5` |
 | `TUTOR_ESFUERZO` | Esfuerzo del modelo (`low`, `medium`, `high`) | `low` |
 | `TUTOR_SYSTEM_PROMPT` | Ruta del system prompt | `tutor/system_prompt.md` |
-| `DOCENTE_KEY` | Clave del panel docente (Fase 3) | — |
+| `DOCENTE_KEY` | Clave del panel docente. Sin ella, el panel queda deshabilitado | — |
+| `TUTOR_COSTO_MEDIO_TURNO` | Costo medio por turno en US$, para el indicador de costo del panel | `0.006` |
 
 El system prompt se lee de `tutor/system_prompt.md` en cada arranque. Si todavía no existe, el server usa `server/system_prompt_placeholder.md` y lo avisa en el log.
 
@@ -120,7 +122,31 @@ docker run -p 7860:7860 -e ANTHROPIC_API_KEY=sk-ant-... -e CODIGOS_SECRETO=... -
 | `GET /api/historial` | — | `{"id", "mensajes": [{"rol", "texto", "pista", "creado"}], "etiqueta_pista"}` |
 | `GET /api/salud` | — | `{"ok": true}` |
 
+| `GET /api/metricas` | — | métricas del curso, por estudiante, por ejercicio, errores y costo |
+| `GET /api/metricas/conversacion/EST-07` | — | todas las sesiones del estudiante con sus mensajes y el `<meta>` de cada respuesta |
+| `GET /api/metricas/csv/{tabla}` | — | CSV de `estudiantes`, `curso`, `semanas`, `sesiones`, `ejercicios`, `errores`, `costo` o `mensajes` |
+
+Las rutas `/api/metricas…` piden la clave del docente en `X-Docente-Key` (o `Authorization: Bearer <clave>`); tras 10 claves incorrectas seguidas se bloquean 5 minutos.
+
 `/api/mensaje` y `/api/historial` piden `Authorization: Bearer <token>`. El token va firmado y no se guarda en el server; vence a la semana o cuando se regenera el código del estudiante. El botón **Pista** manda `{"pista": true}`, y el server lo registra como el mensaje `Pista` del estudiante. El metadato `<meta>` de cada respuesta se guarda validado en `mensajes.meta_json` (se consulta con `json_extract`) y nunca llega al front.
+
+## Panel docente
+
+Abrir <http://localhost:8000/panel> (en el Space, `https://<space>/panel`) e ingresar la clave `DOCENTE_KEY`. La clave queda guardada solo mientras dure la pestaña.
+
+```bash
+DOCENTE_KEY='una-clave-larga' ANTHROPIC_API_KEY=sk-ant-... uvicorn server.app:app --reload
+```
+
+| Pestaña | Qué muestra |
+|---|---|
+| Curso | estudiantes activos, ingresos, minutos conectados, turnos y turnos por sesión, ejercicios abordados y resueltos, proporción de orientación, escalón promedio; costo estimado del día y del mes frente al tope de 200 US$; ingresos por semana; qué pide el estudiante; dispositivo |
+| Estudiantes | las mismas métricas por estudiante (ordenables; los 35 aparecen aunque no hayan entrado) y la tabla de ingresos por semana |
+| Ejercicios y errores | ejercicios más trabados (abordados, trabados, resueltos, escalón promedio) y errores por código |
+| Conversaciones | la conversación completa de un estudiante, sesión por sesión, con el metadato de cada respuesta del tutor |
+| Exportar | todo lo anterior en CSV (separador `;`, coma decimal, se abre directo en Excel) |
+
+Cómo se calcula cada número está al principio de `server/metricas.py`.
 
 ## Base de datos
 

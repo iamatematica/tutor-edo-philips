@@ -64,3 +64,36 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
   - ![Chat a 390 px sin KaTeX](docs/capturas/fase2-chat-390-sin-katex.png)
 - `docker build .` y `docker run` con `CODIGOS_SECRETO`: el server siembra los 35 estudiantes en `/data` (el arranque tarda unos 7 segundos por la verificación de los hashes), sirve el front y acepta el login con un código derivado; la sesión queda con `dispositivo = celular` y, con el límite diario en 0, `/api/mensaje` devuelve el mensaje de "mañana seguimos" sin llamar a la API; sin acceso a la API, `/api/mensaje` responde 503 con "No pude responder. Probá de nuevo en un momento.". En este entorno el build necesitó el certificado del proxy; el Dockerfile del repo no lo lleva.
 - **Pendiente:** la conversación real de 5 turnos contra la API de Claude. Esta sesión no tiene `ANTHROPIC_API_KEY` ni salida a la API: hay que hacerla con la clave del proyecto (idealmente ya con el prompt de la Fase 1) y agregar las capturas acá.
+
+## 2026-10-29 · Fase 3 (panel docente)
+
+**Hecho**
+- `server/metricas.py` calcula todo a partir de las tres tablas y del `<meta>` guardado; `server/panel.py` expone `GET /api/metricas`, `GET /api/metricas/conversacion/{EST-NN}` y `GET /api/metricas/csv/{tabla}`. En `server/app.py` solo se agregó el `include_router`, la redirección `/panel` → `/panel/` y el montaje estático de `panel/` (antes del de `web/`); la lógica existente no cambió. `server/config.py` suma `panel`, `docente_key` (`DOCENTE_KEY`), `costo_medio_turno` (pisable con `TUTOR_COSTO_MEDIO_TURNO`) y `tope_mensual`.
+- `panel/`: HTML + CSS + JS sin build. Usa la misma hoja `web/estilos.css` (se enlaza como `../estilos.css`) más `panel/panel.css`, con el mismo chrome: `Escuela Philips` / `Panel docente · Tutor de ecuaciones diferenciales` / `Matemática · 5.º año`, el nombre del profesor dos veces y solo en `.lab-sub` (lo controla un test). Cinco pestañas: Curso, Estudiantes, Ejercicios y errores, Conversaciones, Exportar. Las conversaciones se renderizan con KaTeX, igual que en el chat.
+- `server/tests/test_panel.py`: 37 tests nuevos (protección y bloqueo, cada métrica con datos controlados, día y mes en hora de Buenos Aires, conversación, cada CSV, neutralización de fórmulas, un recorrido de punta a punta por `/api/mensaje`). `pytest server/tests`: **81 en verde**.
+
+**Definiciones que el contrato dejaba abiertas**
+- *Ingreso* = una fila de `sesiones`. Cuenta los logins y también las sesiones que se reabren solas tras 20 minutos sin mensajes (decisión de la Fase 2). *Semana* = lunes a domingo en hora de Buenos Aires, según el inicio de la sesión.
+- *Turnos por sesión* = turnos / sesiones con al menos un turno: un login sin mensajes suma un ingreso pero no baja el promedio.
+- *Ejercicio abordado* = id del banco que aparece en algún `<meta>` del estudiante; *resuelto* = abordado con algún `<meta>` en `resuelto_por_estudiante`. Las ecuaciones propias (`ejercicio: null`) no entran en estos conteos ni en «ejercicios más trabados», aunque sí en pedidos, errores y la conversación.
+- *Escalón promedio alcanzado* = para cada par (estudiante, ejercicio), la pista más alta que se dio; después, el promedio de esos máximos. En el curso promedia todos los pares; en un ejercicio, los estudiantes que lo abordaron.
+- *Orientación vs. respuesta* = orientación / (orientación + respuesta). El panel muestra además los cuatro tipos de pedido.
+- *Errores*: `error_detectado` de cada `<meta>`. **E10** se cuenta como los turnos con `tipo_pedido: "respuesta"`, que es como lo registra el esquema.
+- *Ejercicios más trabados*: ordenados por cantidad de estudiantes con algún `<meta>` en `trabado` en ese ejercicio y, para desempatar, por turnos trabados.
+- *Costo*: turnos (mensajes del estudiante respondidos) del día y del mes calendario, en hora de Buenos Aires, × `COSTO_MEDIO_TURNO_USD`, con la proporción del tope de 200 US$. Es una estimación; el gasto real está en la consola.
+
+**Desvíos y decisiones**
+- *Qué protege la clave.* El HTML de `/panel` es público pero no trae ningún dato (hay un test que lo controla): todos los datos salen de `/api/metricas…`, que pide `DOCENTE_KEY` en `X-Docente-Key` o `Authorization: Bearer`. Sin `DOCENTE_KEY` definida, el panel responde 503 en lugar de quedar abierto. Tras 10 claves incorrectas seguidas, 5 minutos de bloqueo para todo el panel. El navegador guarda la clave en `sessionStorage`: se olvida al cerrar la pestaña. Los CSV se descargan con `fetch` (llevan la clave en el encabezado, nunca en la URL).
+- *El docente sí ve el metadato.* En la vista de conversación, cada respuesta del tutor lleva sus etiquetas (ejercicio, tipo de pedido, pista, error, estado). Lo que el contrato prohíbe es mostrárselo al estudiante; las rutas del estudiante no cambiaron, y un test lo vuelve a comprobar.
+- *CSV* en ocho tablas en lugar de un solo archivo: estudiantes, curso, semanas, sesiones, ejercicios, errores, costo y mensajes (las conversaciones completas con su metadato). Separador `;`, coma decimal y BOM UTF-8, para que Excel en castellano los abra directamente. Un texto que empieza con `=`, `+`, `-` o `@` sale con un apóstrofo adelante: si no, Excel lo ejecutaría como fórmula (un estudiante podría escribir `=HYPERLINK(…)`).
+- *Respaldo de matemática en el panel.* Si KaTeX no carga, el panel muestra el TeX tal cual en monoespaciada, en vez del conversor con fracciones apiladas del chat: lo lee el docente, no el estudiante, y así no se duplican 150 líneas de `web/app.js`.
+- *Rendimiento.* Las métricas se calculan en Python con cada pedido, leyendo las tres tablas enteras. Con 35 estudiantes y unos miles de mensajes tarda unos pocos milisegundos; no hace falta caché.
+
+**Verificación**
+- Playwright con una base sembrada (35 estudiantes, 107 sesiones, 509 turnos): a 1280 px y a 390 px, clave incorrecta rechazada, las cinco pestañas cargan, orden por columna, conversación de EST-07 con 24 fórmulas en KaTeX y 0 `.katex-error`, descarga del CSV, sin scroll horizontal a 390 px (las tablas anchas se desplazan dentro de su recuadro). El único error de consola es el 401 de la clave incorrecta, que es intencional. En esta sesión cdnjs está bloqueado por el proxy, así que KaTeX 0.16.9 se sirvió desde el paquete de npm a través de una intercepción de Playwright. Capturas:
+  - ![Curso, escritorio](docs/capturas/fase3-curso-escritorio.png)
+  - ![Curso, 390 px](docs/capturas/fase3-curso-390.png)
+  - ![Estudiantes, escritorio](docs/capturas/fase3-estudiantes-escritorio.png)
+  - ![Ejercicios, 390 px](docs/capturas/fase3-ejercicios-390.png)
+  - ![Conversación, 390 px](docs/capturas/fase3-conversacion-390.png)
+- **Pendiente:** `docker build .`. En esta sesión no hay daemon de Docker. El Dockerfile no cambió y copia `panel/` con el resto del contexto (`.dockerignore` no lo excluye), pero conviene construirlo una vez y abrir `/panel` con `DOCENTE_KEY` como secreto del Space.

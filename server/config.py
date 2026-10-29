@@ -56,6 +56,7 @@ class Ajustes:
     )
     placeholder: Path = RAIZ / "server" / "system_prompt_placeholder.md"
     web: Path = RAIZ / "web"
+    panel: Path = RAIZ / "panel"
     modelo: str = field(default_factory=lambda: os.environ.get("TUTOR_MODELO", MODELO))
     esfuerzo: str = field(default_factory=lambda: os.environ.get("TUTOR_ESFUERZO", ESFUERZO))
     max_tokens: int = MAX_TOKENS
@@ -68,6 +69,12 @@ class Ajustes:
     )
     # Firma de los tokens de ingreso. Si no se define, se genera uno y se guarda en datos/.
     sesion_secreto: str | None = field(default_factory=lambda: os.environ.get("SESION_SECRETO") or None)
+    # Clave del panel docente. Sin ella, /api/metricas responde 503.
+    docente_key: str | None = field(default_factory=lambda: os.environ.get("DOCENTE_KEY") or None)
+    costo_medio_turno: float = field(
+        default_factory=lambda: float(os.environ.get("TUTOR_COSTO_MEDIO_TURNO", COSTO_MEDIO_TURNO_USD))
+    )
+    tope_mensual: float = TOPE_MENSUAL_USD
 
     @property
     def db(self) -> Path:
