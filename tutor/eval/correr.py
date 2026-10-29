@@ -53,7 +53,8 @@ ESTUDIANTES = AQUI / "estudiantes.yaml"
 TRANSCRIPCIONES = AQUI / "transcripciones"
 INFORME = AQUI / "informe.md"
 
-MODELO_POR_DEFECTO = "claude-opus-5-5"
+MODELO_POR_DEFECTO = "claude-sonnet-5-5"  # el de la estimación de costo del contrato
+TURNOS_DE_MEMORIA = 12  # el server manda solo los últimos 12 turnos (CLAUDE.md, «Memoria acotada»)
 
 TIPOS_PEDIDO = {"orientacion", "respuesta", "verificacion", "conversacion"}
 ESTADOS = {"avanzando", "trabado", "resuelto_por_estudiante"}
@@ -122,7 +123,8 @@ def conversar_api(est: dict, modelo: str, turnos: int) -> dict:
     historia = []
     for msg in est["mensajes"][:turnos]:
         historia.append({"role": "user", "content": msg["texto"]})
-        r = cliente.messages.create(model=modelo, max_tokens=1200, system=sistema, messages=historia)
+        ventana = historia[-(2 * TURNOS_DE_MEMORIA - 1):]
+        r = cliente.messages.create(model=modelo, max_tokens=1200, system=sistema, messages=ventana)
         texto = "".join(b.text for b in r.content if b.type == "text")
         historia.append({"role": "assistant", "content": texto})
         t["turnos"].append({"estudiante": msg["texto"], "tutor": texto})

@@ -5,6 +5,7 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
 ## 2026-10-29
 - Repositorio creado con CLAUDE.md (contrato), .gitignore y estas notas. Fases 1 y 2 pueden arrancar en paralelo.
 - Se agregaron a `.claude/skills/` las skills del laboratorio que las sesiones en la nube necesitan: `registro-ecuaciones-diferenciales` (contenido verificado de la unidad), `laboratoriobest-diseno`, `spa-recorrido-teorico-philips`, `laboratoriobest-chrome` y `tipografia-y-escala-spa` (tema Escuela Philips para el front). El punto "Front" de CLAUDE.md pasó a referenciar ese tema en vez de DM Sans / STIX.
+- Decisiones de datos y costo (acordadas con el docente): tabla `sesiones` explícita (inicio, última actividad, dispositivo), memoria acotada a los últimos 12 turnos, límite de 80 turnos por alumno por día, tope mensual de 200 US$ en la consola de la API; el panel suma ingresos por semana, minutos conectados y un indicador de costo. Estimación de referencia: 35 alumnos, 3 sesiones/semana de hasta 80 turnos, 4 semanas → ≈ 200 US$ con Sonnet 5.5 como techo.
 
 ## 2026-10-29 · Fase 1 (núcleo del tutor)
 
@@ -25,7 +26,7 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
 - *Estudiantes con guion fijo*: los 10 mensajes no dependen de lo que conteste el tutor. Así la evaluación es reproducible y comparable entre versiones del prompt; a cambio, algunos mensajes pueden no encajar perfecto con la respuesta anterior.
 
 **Corrida de evaluación (informe en `tutor/eval/informe.md`)**
-- *Sin `ANTHROPIC_API_KEY` en la sesión.* Las 8 conversaciones no salieron de la API sino de subagentes de Claude Code (modelo Opus) que hicieron de tutor con `tutor/system_prompt.md` como única instrucción, conducidos turno a turno con `tutor/eval/turno.py` sin ver el guion. Es el mismo modelo, pero no es idéntico a producción (el subagente tiene además su propio contexto de Claude Code). **Pendiente:** con la clave, correr `python tutor/eval/correr.py` (backend `api`, modelo de `server/config.py` o `claude-opus-5-5`) y comparar.
+- *Sin `ANTHROPIC_API_KEY` en la sesión.* Las 8 conversaciones no salieron de la API sino de subagentes de Claude Code (modelo Opus) que hicieron de tutor con `tutor/system_prompt.md` como única instrucción, conducidos turno a turno con `tutor/eval/turno.py` sin ver el guion. No es lo que va a correr en producción: el contrato estima el costo con Sonnet 5.5, y el subagente tiene además su propio contexto de Claude Code. **Pendiente:** con la clave, correr `python tutor/eval/correr.py` (backend `api`, modelo de `server/config.py` o `claude-sonnet-5-5`, con la misma ventana de 12 turnos que el server) y comparar.
 - Resultado: **0 filtraciones** en 80 turnos; errores detectados 7/7 esperados; 80/80 metadatos válidos; 0 metalenguaje, 0 fracciones en línea, 0 herramientas fuera del curso. Escalón promedio 2,75.
 - Leí las 80 respuestas a mano además del detector. No hay soluciones filtradas. Casos en el límite para que mire el docente (no son filtraciones, pero después de la cuarta pista el tutor siguió acercando):
   - EST-SIM-02, turno 6: explica $e^{3+5} = e^3 \cdot e^5$ y sugiere llamar $K$ a $e^C$; no escribe $y = Ke^{x^2}$, pero queda a un paso.

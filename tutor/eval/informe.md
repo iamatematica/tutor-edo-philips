@@ -1,6 +1,6 @@
 # Informe de evaluación del tutor
 
-Generado por `python tutor/eval/correr.py` el 2026-10-29 16:14.
+Generado por `python tutor/eval/correr.py` el 2026-10-29 17:50.
 
 Origen de las conversaciones: backend `agente`, modelo `opus (subagente de Claude Code)` (8 estudiantes).
 System prompt: huella `33d834d01509` (coincide con el actual).
