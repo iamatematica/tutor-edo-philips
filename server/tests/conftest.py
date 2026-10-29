@@ -6,6 +6,8 @@ import tempfile
 os.environ.setdefault("TUTOR_DATOS", tempfile.mkdtemp(prefix="tutor-test-"))
 os.environ.pop("CODIGOS_SECRETO", None)
 
+from datetime import datetime, timedelta, timezone
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -19,6 +21,10 @@ META_OK = (
     '<meta>{"ejercicio": "sep-01", "tipo_pedido": "orientacion", "escalon": 1, '
     '"error_detectado": null, "estado": "avanzando"}</meta>'
 )
+
+
+UA_CELULAR = "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 Chrome/130.0 Mobile Safari/537.36"
+UA_PC = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/130.0 Safari/537.36"
 
 
 class TutorFalso:
@@ -37,9 +43,29 @@ class TutorFalso:
         return texto, "modelo-de-prueba"
 
 
+class Reloj:
+    """Reloj controlable: arranca un martes a las 15:00 de Buenos Aires (18:00 UTC)."""
+
+    def __init__(self):
+        self.t = datetime(2026, 11, 3, 18, 0, tzinfo=timezone.utc)
+
+    def __call__(self):
+        return self.t
+
+    def avanzar(self, **kw):
+        self.t += timedelta(**kw)
+
+
 @pytest.fixture
 def ajustes(tmp_path):
-    return config.Ajustes(datos=tmp_path / "datos", system_prompt=tmp_path / "no-existe.md", codigos_secreto=None)
+    return config.Ajustes(
+        datos=tmp_path / "datos", system_prompt=tmp_path / "no-existe.md", codigos_secreto=None, sesion_secreto="s"
+    )
+
+
+@pytest.fixture
+def reloj():
+    return Reloj()
 
 
 @pytest.fixture
@@ -48,8 +74,9 @@ def tutor():
 
 
 @pytest.fixture
-def app(ajustes, tutor):
+def app(ajustes, tutor, reloj):
     app = crear_app(ajustes, responder=tutor)
+    app.state.reloj = reloj
     app.state.bd.guardar_estudiante("EST-07", acceso.hash_codigo("ABC234"))
     app.state.bd.guardar_estudiante("EST-08", acceso.hash_codigo("XYZ789"))
     return app
@@ -57,7 +84,7 @@ def app(ajustes, tutor):
 
 @pytest.fixture
 def cliente(app):
-    return TestClient(app)
+    return TestClient(app, headers={"User-Agent": UA_CELULAR})
 
 
 @pytest.fixture

@@ -64,3 +64,22 @@ def test_secreto_deriva_los_mismos_codigos_que_siembra_el_server(tmp_path):
     bd = app.state.bd
     assert len(bd.ids_estudiantes()) == 35
     assert acceso.verificar_codigo(codigos["EST-12"], bd.codigo_hash("EST-12"))
+
+
+def test_dispositivo():
+    assert acceso.dispositivo("Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Mobile/15E148") == "celular"
+    assert acceso.dispositivo("Mozilla/5.0 (Linux; Android 14) Mobile Safari/537.36") == "celular"
+    assert acceso.dispositivo("Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) Safari/605.1.15") == "computadora"
+    assert acceso.dispositivo(None) == "computadora"
+
+
+def test_base_con_esquema_viejo_da_error_claro(tmp_path):
+    import sqlite3
+
+    import pytest
+
+    ruta = tmp_path / "vieja.db"
+    with sqlite3.connect(ruta) as c:
+        c.execute("CREATE TABLE sesiones (token_hash TEXT, estudiante_id TEXT, creada TEXT, expira TEXT)")
+    with pytest.raises(RuntimeError, match="esquema anterior"):
+        BaseDatos(ruta)

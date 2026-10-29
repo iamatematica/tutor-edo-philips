@@ -69,9 +69,41 @@ def verificar_codigo(codigo: str, guardado: str) -> bool:
     return hmac.compare_digest(h.hex(), esperado)
 
 
-def nuevo_token() -> str:
-    return secrets.token_urlsafe(32)
+def _firma(secreto: str, est_id: str, expira: int, codigo_hash: str) -> str:
+    datos = f"{est_id}.{expira}.{codigo_hash}".encode()
+    return hmac.new(secreto.encode(), datos, hashlib.sha256).hexdigest()
 
 
-def hash_token(token: str) -> str:
-    return hashlib.sha256(token.encode()).hexdigest()
+def nuevo_secreto() -> str:
+    return secrets.token_hex(32)
+
+
+def nuevo_token(secreto: str, est_id: str, codigo_hash: str, expira: int) -> str:
+    """Token de ingreso firmado: no se guarda en la base.
+
+    La firma incluye el hash del código, así que regenerar los códigos invalida
+    los ingresos anteriores.
+    """
+    return f"{est_id}.{expira}.{_firma(secreto, est_id, expira, codigo_hash)}"
+
+
+def leer_token(secreto: str, token: str, codigo_hash_de, ahora: int) -> str | None:
+    """Devuelve el EST-NN del token si la firma es válida y no venció."""
+    try:
+        est_id, expira_txt, firma = token.split(".")
+        expira = int(expira_txt)
+    except ValueError:
+        return None
+    if expira < ahora:
+        return None
+    codigo_hash = codigo_hash_de(est_id)
+    if not codigo_hash:
+        return None
+    return est_id if hmac.compare_digest(firma, _firma(secreto, est_id, expira, codigo_hash)) else None
+
+
+def dispositivo(user_agent: str | None) -> str:
+    """'celular' o 'computadora' según el user-agent; no se guarda nada más del navegador."""
+    if re.search(r"Mobi|Android|iPhone|iPad|iPod|Windows Phone", user_agent or "", re.IGNORECASE):
+        return "celular"
+    return "computadora"

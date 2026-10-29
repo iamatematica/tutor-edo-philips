@@ -1,10 +1,14 @@
 """Base SQLite del tutor (archivo datos/tutor.db, fuera del repo).
 
-Tablas:
+Tablas, tal como las fija CLAUDE.md:
 - estudiantes(id 'EST-NN', codigo_hash)
-- sesiones(token_hash, estudiante_id, creada, expira)
-- mensajes: cada turno del estudiante y del tutor. En los del tutor se guarda el
-  bloque <meta> completo (meta_json) y sus campos por separado para el panel docente.
+- sesiones(id, estudiante, inicio, ultima_actividad, dispositivo): una sesión se
+  abre en el login y se da por cerrada tras 20 minutos sin mensajes.
+- mensajes(id, sesion, estudiante, rol, texto, meta_json, creado): en los del
+  tutor, meta_json es el bloque <meta> ya validado (o NULL si no vino o no valida).
+
+Nada más se guarda: ni nombres, ni direcciones IP, ni qué hace el alumno fuera del chat.
+Las fechas van en UTC con formato ISO 8601.
 """
 from __future__ import annotations
 
@@ -21,32 +25,26 @@ CREATE TABLE IF NOT EXISTS estudiantes (
 );
 
 CREATE TABLE IF NOT EXISTS sesiones (
-    token_hash    TEXT PRIMARY KEY,
-    estudiante_id TEXT NOT NULL REFERENCES estudiantes(id),
-    creada        TEXT NOT NULL,
-    expira        TEXT NOT NULL
+    id               INTEGER PRIMARY KEY AUTOINCREMENT,
+    estudiante       TEXT NOT NULL REFERENCES estudiantes(id),
+    inicio           TEXT NOT NULL,
+    ultima_actividad TEXT NOT NULL,
+    dispositivo      TEXT NOT NULL CHECK (dispositivo IN ('celular', 'computadora'))
 );
 
 CREATE TABLE IF NOT EXISTS mensajes (
-    id              INTEGER PRIMARY KEY AUTOINCREMENT,
-    estudiante_id   TEXT NOT NULL REFERENCES estudiantes(id),
-    rol             TEXT NOT NULL CHECK (rol IN ('user', 'assistant')),
-    texto           TEXT NOT NULL,
-    es_pista        INTEGER NOT NULL DEFAULT 0,
-    -- solo en mensajes del tutor:
-    texto_crudo     TEXT,
-    meta_json       TEXT,
-    meta_valido     INTEGER,
-    ejercicio       TEXT,
-    tipo_pedido     TEXT,
-    escalon         INTEGER,
-    error_detectado TEXT,
-    estado          TEXT,
-    modelo          TEXT,
-    creado          TEXT NOT NULL
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    sesion     INTEGER NOT NULL REFERENCES sesiones(id),
+    estudiante TEXT NOT NULL REFERENCES estudiantes(id),
+    rol        TEXT NOT NULL CHECK (rol IN ('user', 'assistant')),
+    texto      TEXT NOT NULL,
+    meta_json  TEXT,
+    creado     TEXT NOT NULL
 );
 
-CREATE INDEX IF NOT EXISTS mensajes_estudiante ON mensajes(estudiante_id, id);
+CREATE INDEX IF NOT EXISTS sesiones_estudiante ON sesiones(estudiante, id);
+CREATE INDEX IF NOT EXISTS mensajes_estudiante ON mensajes(estudiante, id);
+CREATE INDEX IF NOT EXISTS mensajes_sesion ON mensajes(sesion, id);
 """
 
 
@@ -55,7 +53,7 @@ def ahora() -> datetime:
 
 
 def iso(dt: datetime) -> str:
-    return dt.isoformat(timespec="seconds")
+    return dt.astimezone(timezone.utc).isoformat(timespec="seconds")
 
 
 class BaseDatos:
@@ -63,6 +61,12 @@ class BaseDatos:
         self.ruta = Path(ruta)
         self.ruta.parent.mkdir(parents=True, exist_ok=True)
         with self.conexion() as c:
+            columnas = {f["name"] for f in c.execute("PRAGMA table_info(sesiones)")}
+            if columnas and "estudiante" not in columnas:
+                raise RuntimeError(
+                    f"{self.ruta} tiene el esquema anterior al contrato del 29/10 (sesiones sin 'estudiante'). "
+                    "Si es una base de prueba, borrala; si tiene datos reales, hay que migrarla."
+                )
             c.executescript(ESQUEMA)
 
     @contextmanager
@@ -100,79 +104,74 @@ class BaseDatos:
 
     # ---------- sesiones ----------
 
-    def crear_sesion(self, token_hash: str, est_id: str, horas: int) -> None:
-        t = ahora()
+    def abrir_sesion(self, est_id: str, dispositivo: str, cuando: datetime | None = None) -> int:
+        t = iso(cuando or ahora())
         with self.conexion() as c:
-            c.execute("DELETE FROM sesiones WHERE expira < ?", (iso(t),))
-            c.execute(
-                "INSERT INTO sesiones(token_hash, estudiante_id, creada, expira) VALUES (?, ?, ?, ?)",
-                (token_hash, est_id, iso(t), iso(t + timedelta(hours=horas))),
+            cur = c.execute(
+                "INSERT INTO sesiones(estudiante, inicio, ultima_actividad, dispositivo) VALUES (?, ?, ?, ?)",
+                (est_id, t, t, dispositivo),
             )
+            return cur.lastrowid
 
-    def estudiante_de_sesion(self, token_hash: str) -> str | None:
+    def sesion_activa(self, est_id: str, minutos: int, cuando: datetime | None = None) -> sqlite3.Row | None:
+        """La última sesión del estudiante, si tuvo actividad en los últimos `minutos`."""
+        limite = iso((cuando or ahora()) - timedelta(minutes=minutos))
         with self.conexion() as c:
-            fila = c.execute(
-                "SELECT estudiante_id FROM sesiones WHERE token_hash = ? AND expira >= ?",
-                (token_hash, iso(ahora())),
+            return c.execute(
+                "SELECT * FROM sesiones WHERE estudiante = ? AND ultima_actividad >= ? ORDER BY id DESC LIMIT 1",
+                (est_id, limite),
             ).fetchone()
-        return fila["estudiante_id"] if fila else None
 
-    def cerrar_sesion(self, token_hash: str) -> None:
+    def sesiones(self, est_id: str) -> list[sqlite3.Row]:
         with self.conexion() as c:
-            c.execute("DELETE FROM sesiones WHERE token_hash = ?", (token_hash,))
+            return c.execute("SELECT * FROM sesiones WHERE estudiante = ? ORDER BY id", (est_id,)).fetchall()
 
     # ---------- mensajes ----------
 
-    def guardar_turno(self, est_id: str, texto_estudiante: str, es_pista: bool, tutor: dict) -> None:
-        """Guarda juntos el mensaje del estudiante y la respuesta del tutor.
+    def guardar_turno(self, sesion: int, est_id: str, texto_estudiante: str, texto_tutor: str,
+                      meta_json: str | None, cuando: datetime | None = None) -> None:
+        """Guarda juntos el mensaje del estudiante y la respuesta del tutor, y actualiza la sesión.
 
-        Se escriben en la misma transacción para que el historial siempre alterne
+        Van en la misma transacción para que el historial siempre alterne
         estudiante / tutor: si la llamada a Claude falla, no queda nada guardado.
         """
-        t = iso(ahora())
-        meta = tutor.get("meta") or {}
+        t = iso(cuando or ahora())
         with self.conexion() as c:
             c.execute(
-                "INSERT INTO mensajes(estudiante_id, rol, texto, es_pista, creado) VALUES (?, 'user', ?, ?, ?)",
-                (est_id, texto_estudiante, int(es_pista), t),
+                "INSERT INTO mensajes(sesion, estudiante, rol, texto, creado) VALUES (?, ?, 'user', ?, ?)",
+                (sesion, est_id, texto_estudiante, t),
             )
             c.execute(
-                """INSERT INTO mensajes(estudiante_id, rol, texto, texto_crudo, meta_json, meta_valido,
-                       ejercicio, tipo_pedido, escalon, error_detectado, estado, modelo, creado)
-                   VALUES (?, 'assistant', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-                (
-                    est_id,
-                    tutor["texto"],
-                    tutor.get("texto_crudo"),
-                    tutor.get("meta_json"),
-                    int(bool(tutor.get("meta_valido"))),
-                    meta.get("ejercicio"),
-                    meta.get("tipo_pedido"),
-                    meta.get("escalon"),
-                    meta.get("error_detectado"),
-                    meta.get("estado"),
-                    tutor.get("modelo"),
-                    t,
-                ),
+                "INSERT INTO mensajes(sesion, estudiante, rol, texto, meta_json, creado) "
+                "VALUES (?, ?, 'assistant', ?, ?, ?)",
+                (sesion, est_id, texto_tutor, meta_json, t),
             )
+            c.execute("UPDATE sesiones SET ultima_actividad = ? WHERE id = ?", (t, sesion))
 
-    def mensajes(self, est_id: str, limite: int | None = None) -> list[sqlite3.Row]:
+    def mensajes(self, est_id: str) -> list[sqlite3.Row]:
         with self.conexion() as c:
-            if limite:
-                filas = c.execute(
-                    "SELECT * FROM (SELECT * FROM mensajes WHERE estudiante_id = ? ORDER BY id DESC LIMIT ?) "
-                    "ORDER BY id",
-                    (est_id, limite),
-                ).fetchall()
-            else:
-                filas = c.execute(
-                    "SELECT * FROM mensajes WHERE estudiante_id = ? ORDER BY id", (est_id,)
-                ).fetchall()
-        return filas
+            return c.execute("SELECT * FROM mensajes WHERE estudiante = ? ORDER BY id", (est_id,)).fetchall()
+
+    def ultimos_de_sesion(self, sesion: int, limite: int) -> list[sqlite3.Row]:
+        """Los últimos `limite` mensajes de la sesión, en orden cronológico."""
+        with self.conexion() as c:
+            return c.execute(
+                "SELECT * FROM (SELECT * FROM mensajes WHERE sesion = ? ORDER BY id DESC LIMIT ?) ORDER BY id",
+                (sesion, limite),
+            ).fetchall()
 
     def ultimo_del_tutor(self, est_id: str) -> sqlite3.Row | None:
         with self.conexion() as c:
             return c.execute(
-                "SELECT * FROM mensajes WHERE estudiante_id = ? AND rol = 'assistant' ORDER BY id DESC LIMIT 1",
+                "SELECT * FROM mensajes WHERE estudiante = ? AND rol = 'assistant' ORDER BY id DESC LIMIT 1",
                 (est_id,),
             ).fetchone()
+
+    def turnos_desde(self, est_id: str, desde: datetime) -> int:
+        """Cantidad de turnos (mensajes del estudiante respondidos) desde un instante."""
+        with self.conexion() as c:
+            fila = c.execute(
+                "SELECT COUNT(*) AS n FROM mensajes WHERE estudiante = ? AND rol = 'user' AND creado >= ?",
+                (est_id, iso(desde)),
+            ).fetchone()
+        return fila["n"]
