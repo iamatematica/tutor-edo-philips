@@ -144,6 +144,19 @@ body {
 }
 .vista { flex: 1 0 auto; display: flex; flex-direction: column; }
 
+/* Modo demostración (TUTOR_DEMO=1): siempre a la vista, en el chat y en el panel. */
+.cartel-demo {
+  margin: 0 0 14px;
+  padding: 8px 12px;
+  border: 1.5px dashed var(--violeta);
+  border-radius: 8px;
+  background: #F2EEF8;
+  color: #4a3478;
+  font: 500 13px/1.4 var(--mono);
+  text-align: center;
+}
+.cartel-demo[hidden] { display: none; }
+
 .badge {
   font-family: var(--mono);
   font-size: .7rem;

@@ -385,5 +385,11 @@
 
   if (clave) cargar(); else mostrar('clave');
 
+  // Modo demostración: el server lo informa en /api/salud y el cartel queda a la vista.
+  fetch('/api/salud', { cache: 'no-store' }).then(function (r) { return r.json(); }).then(function (d) {
+    if (d && d.demo) $('#cartel-demo').hidden = false;
+    if (d && d.clave_demo) $('#clave-demo').hidden = false;
+  }).catch(function () {});
+
   window.__panel = { renderizar: renderizar };
 })();

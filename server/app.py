@@ -5,12 +5,13 @@ Rutas:
 - POST /api/logout
 - POST /api/mensaje    {texto, pista}          → {respuesta, etiqueta_pista, limite_alcanzado}
 - GET  /api/historial                          → {mensajes, etiqueta_pista}
-- GET  /api/salud
+- GET  /api/salud                              → {ok} (y demo, clave_demo con TUTOR_DEMO=1)
 - /api/metricas…       panel docente, con DOCENTE_KEY (ver server/panel.py)
 - /panel/              front estático del panel docente (panel/)
 - /                    front estático de web/
 
 Correr local: uvicorn server.app:app --reload
+Modo demostración, sin API ni costo: TUTOR_DEMO=1 uvicorn server.app:app (ver server/demo.py)
 """
 from __future__ import annotations
 
@@ -27,9 +28,10 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from . import acceso, config
+from . import acceso, config, sembrar_demo
 from .claude import ClienteClaude, ErrorTutor, Responder
 from .db import BaseDatos, ahora
+from .demo import TutorGuionado
 from .meta import extraer
 from .panel import crear_router
 
@@ -119,10 +121,18 @@ def contexto_para_claude(filas) -> list[dict]:
 def crear_app(ajustes: config.Ajustes | None = None, responder: Responder | None = None) -> FastAPI:
     ajustes = ajustes or config.Ajustes()
     bd = BaseDatos(ajustes.db)
+    if ajustes.demo:
+        # Sin API ni costo: base inventada (si está vacía) y tutor guionado.
+        log.warning("MODO DEMOSTRACIÓN: respuestas guionadas, sin IA. No usar con el curso real.")
+        sembrar_demo.sembrar_si_vacia(ajustes, bd)
     if ajustes.codigos_secreto:
         sembrar_estudiantes(bd, ajustes.codigos_secreto, ajustes.n_estudiantes)
     system_prompt, es_placeholder = cargar_system_prompt(ajustes)
-    responder = responder or ClienteClaude(ajustes.modelo, ajustes.esfuerzo, ajustes.max_tokens)
+    if responder is None:
+        if ajustes.demo:
+            responder = TutorGuionado(ajustes.banco)
+        else:
+            responder = ClienteClaude(ajustes.modelo, ajustes.esfuerzo, ajustes.max_tokens)
     secreto = secreto_de_sesion(ajustes)
     zona = ZoneInfo(config.ZONA_HORARIA)
 
@@ -155,6 +165,9 @@ def crear_app(ajustes: config.Ajustes | None = None, responder: Responder | None
 
     @app.get("/api/salud")
     def salud():
+        if ajustes.demo:
+            # El front muestra el cartel de demostración en el chat y en el panel.
+            return {"ok": True, "demo": True, "clave_demo": ajustes.docente_key == config.DOCENTE_KEY_DEMO}
         return {"ok": True}
 
     @app.post("/api/login")
