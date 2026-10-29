@@ -1,0 +1,23 @@
+id: LIN-04
+tema: lineales
+nivel: 3
+enunciado: >-
+  Resolvé $y' - \frac{y}{x} = [[a|coef]]x$ para $x > 0$ con el método $y = u \cdot v$ y hallá la solución que cumple $y(1) = [[y0]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - y/x - a*x"
+rango_parametros:
+  a: [1, 2, 3]
+  y0: [2, 3]
+condicion_inicial: {x0: 1, y0: y0}
+solucion_general: "a*x**2 + K*x"
+solucion_particular: "a*x**2 + (y0 - a)*x"
+errores_esperados: [E06, E07]
+pistas:
+  P1: >-
+    ¿Cuánto vale $P$? Ojo con el signo.
+  P2: >-
+    $P = -\frac{1}{x}$. Buscá $v$ con $v' - \frac{v}{x} = 0$ y después $u$ con $u'v = Q$.
+  P3: >-
+    Separando, $\frac{dv}{v} = \frac{dx}{x}$. ¿Qué $v$ sale? Con ese $v$, ¿qué tenés que integrar para obtener $u$: $Q$ o $\frac{Q}{v}$?
+  P4: >-
+    Con $v = x$ queda $u' \cdot x = [[a|coef]]x$, o sea $u = \int \frac{[[a|coef]]x}{x}\,dx$. Integrá y no entregues $u$: la respuesta es $u \cdot v$.

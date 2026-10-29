@@ -1,0 +1,30 @@
+id: LIN-01
+tema: lineales
+nivel: 2
+enunciado: >-
+  Resolvé $y' + [[a]]y = [[b]]$ con el método $y = u \cdot v$ y hallá la solución que cumple $y(0) = [[y0]]$.
+variables: {independiente: x, funcion: y}
+edo: "p + a*y - b"
+# Instancias explícitas: las tres de la unidad (y' + 2y = 6, y' + 3y = 12, y' + 4y = 8) con dos condiciones iniciales.
+rango_parametros:
+  - {a: 2, c: 3, y0: 1}
+  - {a: 3, c: 4, y0: 1}
+  - {a: 4, c: 2, y0: 5}
+  - {a: 2, c: 3, y0: 0}
+  - {a: 3, c: 4, y0: 6}
+  - {a: 4, c: 2, y0: 0}
+derivados:
+  b: "a*c"
+condicion_inicial: {x0: 0, y0: y0}
+solucion_general: "c + K*exp(-a*x)"
+solucion_particular: "c + (y0 - c)*exp(-a*x)"
+errores_esperados: [E03, E05, E06, E07]
+pistas:
+  P1: >-
+    ¿Qué forma tiene la ecuación? ¿Quién hace de $P$ y quién de $Q$?
+  P2: >-
+    Proponé $y = u \cdot v$ y elegí $v$ de manera que se anule todo lo que queda multiplicado por $u$.
+  P3: >-
+    Con $y = uv$ queda $u'v + u\,(v' + [[a]]v) = [[b]]$. Si pedís $v' + [[a]]v = 0$, ¿qué $v$ te sirve? (Sin constante.)
+  P4: >-
+    Con $v = e^{-[[a]]x}$ queda $u' = [[b]]e^{[[a]]x}$, o sea $u = \int [[b]]e^{[[a]]x}\,dx$. Resolvé esa integral con cuidado y después armá $y = u \cdot v$.

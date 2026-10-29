@@ -1,0 +1,31 @@
+id: FIS-06
+tema: fisica
+nivel: 5
+enunciado: >-
+  Caída con rozamiento: un cuerpo de $m = [[m]]$ kg cae desde el reposo con rozamiento $k = [[k]]$ kg/s y $g = 10$. Su velocidad cumple $[[m]]\,v' = [[m]] \cdot 10 - [[k|coef]]v$. Hallá $v(t)$ (llamá $K$ a la constante de integración), la velocidad límite y la constante de tiempo.
+enunciado_planteo: >-
+  Un cuerpo de $m = [[m]]$ kg cae desde el reposo. Sobre él actúan el peso $m\,g$ (con $g = 10$) hacia abajo y una fuerza de rozamiento $k\,v$ hacia arriba, con $k = [[k]]$ kg/s. Usando $m\,v' = $ suma de fuerzas, planteá la ecuación para $v(t)$ en la forma $v' + a\,v = b$ y escribí la condición inicial.
+variables: {independiente: t, funcion: v}
+edo: "m*p - m*10 + k*v"
+rango_parametros:
+  m: [2, 4]
+  k: [1, 2]
+condicion_inicial: {x0: 0, y0: 0}
+solucion_general: "m*10/k + K*exp(-k*t/m)"
+solucion_particular: "m*10/k*(1 - exp(-k*t/m))"
+control: {valor_final: "m*10/k", tau: "m/k"}
+controles:
+  - {descripcion: "arranca en reposo", cero: "sol(0)"}
+errores_esperados: [E09, E06, E03]
+pistas:
+  P1: >-
+    ¿Hacia dónde apunta cada fuerza? ¿Con qué signo entra el rozamiento?
+  P2: >-
+    Dividí por $m$: aparece $\frac{k}{m}$, no $k$. La velocidad límite es $\frac{b}{a}$.
+  P3: >-
+    Dividiendo por $[[m]]$ queda $v' + [[a]]\,v = 10$. ¿Cómo la separás?
+  P4: >-
+    Escribí $v' = -[[a]]\,(v - [[vl]])$ y planteá $\int \frac{1}{v - [[vl]]}\,dv = \int -[[a]]\,dt$. Usá $v(0) = 0$ para la constante.
+derivados:
+  a: "k/m"
+  vl: "m*10/k"

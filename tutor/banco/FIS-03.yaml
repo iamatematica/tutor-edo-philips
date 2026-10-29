@@ -1,0 +1,32 @@
+id: FIS-03
+tema: fisica
+nivel: 3
+enunciado: >-
+  Descarga de un capacitor: con $R = [[R]]\ \Omega$ y $C = [[C|dec]]$ F, la carga cumple $q' = -\frac{q}{RC}$ y al principio vale $q(0) = [[q0|dec]]$ C (coulomb). Hallá $q(t)$ (llamá $K$ a la constante de integración) y el tiempo en que la carga se reduce a la mitad.
+enunciado_planteo: >-
+  Un capacitor de $C = [[C|dec]]$ F con una carga inicial de $[[q0|dec]]$ C (coulomb) se descarga a través de una resistencia de $R = [[R]]\ \Omega$. La ley de la malla da $R\,q' + \frac{q}{C} = 0$. Reemplazá los valores y planteá la ecuación en la forma $q' + a\,q = b$, con su condición inicial.
+variables: {independiente: t, funcion: q}
+edo: "p + q/(R*C)"
+rango_parametros:
+  R: [2000, 1000]
+  C: ["1/1000", "1/500"]
+  q0: ["3/100", "1/50"]
+condicion_inicial: {x0: 0, y0: q0}
+solucion_general: "K*exp(-t/(R*C))"
+solucion_particular: "q0*exp(-t/(R*C))"
+control: {valor_final: 0, tau: "R*C"}
+controles:
+  - {descripcion: "media carga en RC·ln 2", cero: "sol(R*C*log(2)) - q0/2"}
+  - {descripcion: "en t = RC queda el 37 %, no la mitad", cero: "sol(R*C) - q0*exp(-1)"}
+errores_esperados: [E09, E03]
+pistas:
+  P1: >-
+    ¿Cuánto vale $RC$ con estos datos? ¿Qué forma tiene la ecuación?
+  P2: >-
+    Es separable: pasá la $q$ dividiendo. La constante de tiempo es $RC$, no $\frac{1}{RC}$.
+  P3: >-
+    Con $RC = [[tau]]$ queda $\frac{dq}{q} = -\frac{dt}{[[tau]]}$. ¿Qué da integrar?
+  P4: >-
+    Planteá $\int \frac{1}{q}\,dq = \int -\frac{1}{[[tau]]}\,dt$ y usá $q(0) = [[q0|dec]]$. Para la mitad, igualá $q(t)$ a la mitad de la carga inicial y despejá $t$ con logaritmo.
+derivados:
+  tau: "R*C"

@@ -1,0 +1,23 @@
+id: SIN-03
+tema: singular
+nivel: 5
+enunciado: >-
+  Verificá, derivando y reemplazando, que $y = Kx + [[a|coef]]K^2$ es solución de $y = xy' + [[a|coef]](y')^2$ para todo $K$, y que $y = -\frac{x^2}{[[c]]}$ también es solución. ¿Sale esta última de la general para algún $K$?
+variables: {independiente: x, funcion: y}
+edo: "x*p + a*p**2 - y"
+rango_parametros:
+  a: [1, 2, 3]
+derivados:
+  c: "4*a"
+solucion_general: "K*x + a*K**2"
+solucion_singular: "-x**2/(4*a)"
+errores_esperados: [E04]
+pistas:
+  P1: >-
+    Para verificar, ¿qué necesitás calcular primero de cada función?
+  P2: >-
+    Derivá cada candidata, reemplazá $y$ e $y'$ en los dos miembros y compará. Probar un solo punto no alcanza.
+  P3: >-
+    Para la general, $y' = K$. Reemplazá en el miembro derecho: ¿qué te queda?
+  P4: >-
+    Para la otra, calculá su derivada y reemplazá. Después preguntate: ¿una recta $Kx + [[a|coef]]K^2$ puede ser igual a una parábola para todo $x$?

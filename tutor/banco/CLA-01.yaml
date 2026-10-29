@@ -1,0 +1,22 @@
+id: CLA-01
+tema: clasificacion
+nivel: 1
+enunciado: >-
+  Clasificá la ecuación $(y')^{[[a]]} + y'' = [[b|coef]]x$: ¿de qué orden y de qué grado es? ¿Es lineal?
+# Derivadas como y1 = y', y2 = y'', y3 = y'''. F = 0.
+edo: "y1**a + y2 - b*x"
+rango_parametros:
+  a: [2, 3, 4, 5]
+  b: [1, 2, 3]
+clasificacion: {orden: 2, grado: 1, lineal: false}
+solucion_general: null
+errores_esperados: [E01]
+pistas:
+  P1: >-
+    ¿Cuál es la derivada de mayor orden que aparece en la ecuación?
+  P2: >-
+    El orden lo da la derivada más alta. El grado es el exponente de esa derivada, no el de cualquier otra.
+  P3: >-
+    La derivada más alta es $y''$, así que el orden ya lo tenés. ¿A qué exponente está elevada $y''$?
+  P4: >-
+    Para el grado mirá solo el término $y''$. Para lo de lineal: ¿hay alguna derivada elevada a un exponente distinto de $1$?

@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-07",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T18:02:12",
+  "prompt_sha": "ad8b728b7323",
+  "turnos": [
+    {
+      "estudiante": "hola tengo y prima igual a menos x sobre y, y de cero igual a 2",
+      "tutor": "¡Hola! Te entendí perfecto: es $y' = -\\frac{x}{y}$ con $y(0) = 2$. Para arrancar, una pregunta: si multiplicás los dos lados por $y$, ¿qué te queda? ¿Podés dejar cada variable de un lado?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "como lo separo",
+      "tutor": "Pista: escribí $y'$ como $\\frac{dy}{dx}$ y pasá la $y$ multiplicando al lado de $dy$, y el $dx$ al lado de la $x$. Así cada variable queda con su propio diferencial. ¿Cómo te queda?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "y dy = menos x dx?",
+      "tutor": "¡Eso! Queda $y\\,dy = -x\\,dx$, bien separada. Ahora integrá cada lado: ¿qué te da?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "puse y = 2 y x = 0 de una y me queda 2 dy = 0, esta bien?",
+      "tutor": "Pará un segundo: ¿ya tenés la familia de soluciones? Si reemplazás $y = 2$ y $x = 0$ ahora, la ecuación deja de depender de $x$ y de $y$ y no queda nada para integrar. ¿En qué momento conviene usar el dato $y(0) = 2$?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E03\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ah ok, integro primero. me da y al cuadrado sobre 2 igual a menos x al cuadrado sobre 2 mas c",
+      "tutor": "¡Muy bien! Te quedó $\\frac{y^2}{2} = -\\frac{x^2}{2} + K$ (en el curso a la constante la llamamos $K$). Ahora multiplicá todo por $2$ y pasá los términos con $x$ e $y$ al mismo lado: ¿qué curva reconocés?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "multiplico por 2: x al cuadrado mas y al cuadrado igual a k",
+      "tutor": "¡Bien! Llegaste a $x^2 + y^2 = K$: es una familia de circunferencias con centro en el origen. Ahora sí es el momento de usar el dato $y(0) = 2$: ¿cuánto te da $K$?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ahora pongo el punto, 0 + 4 = k, k = 4",
+      "tutor": "Verifiquemos tu $x^2 + y^2 = 4$ derivando: $2x + 2y\\,y' = 0$, o sea $y' = -\\frac{x}{y}$, que es justo la ecuación; y con $x = 0$ da $y^2 = 4$, con $y = 2$ en la rama de arriba. ¡Lo resolviste vos! ¿Querés probar con $y' = -\\frac{2x}{y}$ que pasa por $(0\\,;\\,2)$?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "entonces y = raiz de 4 menos x al cuadrado",
+      "tutor": "Sí: tomaste la raíz positiva, que es la que pasa por $y = 2$. Se escribe $y = \\sqrt{4 - x^2}$, y si la derivás te da $y' = \\frac{-x}{\\sqrt{4 - x^2}} = -\\frac{x}{y}$, así que cumple la ecuación. ¿Te animás a la de $y' = -\\frac{2x}{y}$ con el mismo punto?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "como lo verifico sin poner un punto",
+      "tutor": "Un punto solo no alcanza: tiene que valer para todo $x$. Por eso se deriva tu función y se reemplaza en la ecuación. Probá vos: derivá $y = \\sqrt{4 - x^2}$ (es una raíz de una función, usá la regla de la cadena), poné esa $y'$ en el primer miembro, y en el segundo calculá $-\\frac{x}{y}$ con tu $y$. ¿Te quedan iguales?\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "gracias!!",
+      "tutor": "¡De nada, trabajaste muy bien! Cuando quieras seguimos con $y' = -\\frac{2x}{y}$ que pasa por $(0\\,;\\,2)$.\n<meta>{\"ejercicio\": \"SEP-03\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    }
+  ]
+}

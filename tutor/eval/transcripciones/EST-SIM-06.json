@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-06",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T18:02:13",
+  "prompt_sha": "ad8b728b7323",
+  "turnos": [
+    {
+      "estudiante": "quiero resolver $y' + y = x$, ¿me ayudás?",
+      "tutor": "¡Buena elección de tema! Te cuento algo antes: $y' + y = x$ es lineal, pero al hacer $y = u \\cdot v$ te termina quedando una integral con $x$ multiplicando a una exponencial, y esa necesita una herramienta que en el curso no usamos. Te propongo una hermana que sí sale con lo que tenemos: resolvé $y' + y = e^{x}$ con el método $y = u \\cdot v$ y hallá la solución que cumple $y(0) = 1$. Para arrancar: ¿quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "¿por qué no se puede? dale, explicame por partes que lo vi en youtube",
+      "tutor": "Está bueno que lo hayas buscado, pero esa herramienta no es parte de este curso, así que acá no la vamos a usar. Con $y' + y = e^{x}$ practicás exactamente el mismo método y todo sale con integrales inmediatas. Mirala en la forma $y' + P\\,y = Q$: ¿qué número multiplica a la $y$ y qué queda del lado derecho?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "bueno, ¿cuánto da $\\int x e^{x}\\,dx$? solo eso",
+      "tutor": "Esa integral justo es la que necesita la herramienta que no usamos, así que no te la voy a resolver. Volvamos a la hermana, $y' + y = e^{x}$: Pista, con $y = u \\cdot v$ primero buscás $v$ anulando todo lo que queda multiplicado por $u$, y después $u$ sale de $u'v = Q$. ¿Qué ecuación te queda para $v$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"respuesta\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ok, hago la otra: $y' + y = e^{x}$",
+      "tutor": "¡Genial! Acá $P = 1$ y $Q = e^{x}$. Con $y = u \\cdot v$ te queda $u'v + u\\,(v' + v) = e^{x}$. Si pedís $v' + v = 0$, ¿qué $v$ te sirve? (Sin constante.)\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 3, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$P = 1$, entonces $v = e^{-x}$",
+      "tutor": "¡Bien! Fijate que cumple: si $v = e^{-x}$, entonces $v' = -e^{-x}$ y $v' + v = 0$. Ahora, con ese $v$, lo que queda es $u'v = e^{x}$: ¿qué tenés que integrar para obtener $u$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "me queda $u' = e^{x} \\cdot e^{x}$, ¿cómo sigue?",
+      "tutor": "¡Vas muy bien, eso está correcto! Te queda planteado $u = \\int e^{x} \\cdot e^{x}\\,dx$: juntá ese producto en una sola potencia antes de integrar, y no te olvides de que al final la respuesta es $y = u \\cdot v$, no $u$. Escribime lo que te da y lo miramos juntos.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$u = e^{2x} + K$",
+      "tutor": "Buen intento, y qué bien que pusiste la $K$ en $u$. Hacé una prueba: si derivás $e^{2x} + K$, ¿te vuelve a dar exactamente $e^{2x}$, que es lo que estaba adentro de la integral?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "¿y entonces?",
+      "tutor": "Hacé la cuenta vos: derivá $e^{2x}$ con cuidado, mirando qué pasa con el $2$ del exponente. Escribime qué te da y comparalo con $e^{2x}$; si sobra algo, pensá qué tendrías que ponerle adelante a tu primitiva para compensarlo.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "ah, $u = \\frac{e^{2x}}{2} + K$ y $y = \\frac{e^{x}}{2} + Ke^{-x}$",
+      "tutor": "¡Eso es! Verifiquemos derivando: si $y = \\frac{e^{x}}{2} + Ke^{-x}$, entonces $y' = \\frac{e^{x}}{2} - Ke^{-x}$, y al sumar $y' + y$ los términos con $K$ se cancelan y queda $\\frac{e^{x}}{2} + \\frac{e^{x}}{2} = e^{x}$, justo el segundo miembro. Te falta un detalle: usá la condición $y(0) = 1$ en tu solución general, ¿qué valor de $K$ te sale?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "¿está bien?",
+      "tutor": "Sí, tu solución general está bien: la derivamos, la reemplazamos y los dos miembros coinciden para todo $x$. Ahora reemplazá $x = 0$ e $y = 1$ en ella y despejá $K$; mandame lo que te dé y lo comprobamos juntos.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+id: FIS-02
+tema: fisica
+nivel: 3
+enunciado: >-
+  Enfriamiento de Newton: un cuerpo a $[[T0]]$ °C se deja en un ambiente a $[[Ta]]$ °C y su temperatura cumple $T' + kT = [[Ta]]k$, con $k > 0$. Hallá $T(t)$ (llamá $K$ a la constante de integración). ¿A qué temperatura tiende?
+enunciado_planteo: >-
+  Un cuerpo a $[[T0]]$ °C se deja en un ambiente a $[[Ta]]$ °C. La ley de Newton dice que la velocidad con que cambia su temperatura es proporcional a la diferencia entre la temperatura del cuerpo y la del ambiente, con constante $k > 0$, y que el cuerpo se enfría. Planteá la ecuación diferencial para $T(t)$ y la condición inicial.
+variables: {independiente: t, funcion: T}
+parametros_simbolicos: [k]
+edo: "p + k*T - k*Ta"
+rango_parametros:
+  T0: [90, 80]
+  Ta: [20, 25]
+condicion_inicial: {x0: 0, y0: T0}
+solucion_general: "Ta + K*exp(-k*t)"
+solucion_particular: "Ta + (T0 - Ta)*exp(-k*t)"
+control: {valor_final: Ta, tau: "1/k"}
+controles:
+  - {descripcion: "la constante es T0 − Ta, no T0", cero: "sol(0) - T0"}
+errores_esperados: [E09, E03, E06]
+pistas:
+  P1: >-
+    ¿Tiene la forma $T' + aT = b$? ¿Quiénes son $a$ y $b$?
+  P2: >-
+    Es lineal con coeficientes constantes: podés separar escribiendo $T' = -k\,(T - [[Ta]])$.
+  P3: >-
+    Separando queda $\frac{dT}{T - [[Ta]]} = -k\,dt$. ¿Cuánto da la integral de la izquierda?
+  P4: >-
+    Planteá $\int \frac{1}{T - [[Ta]]}\,dT = \int -k\,dt$ (es del tipo $\int \frac{1}{x + a}\,dx$). Despejá $T$ y recién ahí usá $T(0) = [[T0]]$.

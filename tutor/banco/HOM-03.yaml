@@ -1,0 +1,24 @@
+id: HOM-03
+tema: homogeneas
+nivel: 4
+enunciado: >-
+  Resolvé $y' = \frac{[[b|coef]]x + 2y}{x}$ para $x > 0$ con la sustitución $y = ux$ y hallá la solución que cumple $y(1) = [[c]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - (b*x + 2*y)/x"
+f_homogenea: "(b*x + 2*y)/x"
+rango_parametros:
+  b: [1, 2, 3]
+  c: [1, 2]
+condicion_inicial: {x0: 1, y0: c}
+solucion_general: "K*x**2 - b*x"
+solucion_particular: "(c + b)*x**2 - b*x"
+errores_esperados: [E08, E03]
+pistas:
+  P1: >-
+    ¿Es homogénea? Probá reemplazar $x$ por $tx$ e $y$ por $ty$ en el segundo miembro.
+  P2: >-
+    Con $y = ux$ el segundo miembro queda solo en $u$. Derivá $y = ux$ con la regla del producto.
+  P3: >-
+    Queda $u + xu' = [[b]] + 2u$. Pasá la $u$: ¿qué te queda para $xu'$?
+  P4: >-
+    Queda $xu' = u + [[b]]$, que se separa: $\int \frac{du}{u + [[b]]} = \int \frac{dx}{x}$. Integrá (la de la izquierda es del tipo $\int \frac{1}{x + a}\,dx$) y al volver multiplicá por $x$.

@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-05",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T18:02:13",
+  "prompt_sha": "ad8b728b7323",
+  "turnos": [
+    {
+      "estudiante": "hola! voy a hacer $y' + 3y = 12$ con $y(0) = 1$",
+      "tutor": "¡Hola! Dale, buena elección para practicar. Arrancá vos y contame cómo vas; si querés una primera orientación: ¿en qué forma está escrita $y' + 3y = 12$? ¿Quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$P = 3$ y $Q = 12$. propongo $y = uv$",
+      "tutor": "¡Bien! $P = 3$ y $Q = 12$, y $y = u \\cdot v$ es el camino. Seguí: reemplazá $y = uv$ en la ecuación y fijate qué te conviene pedirle a $v$. ¿Qué te queda?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "$v' + 3v = 0$, así que $v = e^{-3x}$",
+      "tutor": "Muy bien: si derivás $v = e^{-3x}$ te da $v' = -3e^{-3x}$, y sumándole $3v$ queda $0$. Además lo tomaste sin constante, perfecto. Ahora, con ese $v$, ¿qué ecuación te queda para $u'$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "queda $u'e^{-3x} = 12$, o sea $u' = 12e^{3x}$",
+      "tutor": "Exacto, pasaste bien el $e^{-3x}$ dividiendo. Ahora te toca integrar para sacar $u$: ¿qué te da? Un consejo: cuando la tengas, derivala y fijate si te vuelve $12e^{3x}$.\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "integrando, $u = 4e^{3x} + K$",
+      "tutor": "Lo verifico: derivando $u = 4e^{3x} + K$ queda $u' = 12e^{3x}$, que es justo lo que tenías. ¡Bien ahí! Ahora, ¿cuál es tu $y$? Acordate de qué es lo que se arma con $u$ y $v$.\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "entonces $y = uv = 4 + Ke^{-3x}$",
+      "tutor": "Verifiquemos derivando y reemplazando: de tu $y = 4 + Ke^{-3x}$ sale $y' = -3Ke^{-3x}$, y entonces\n$$y' + 3y = -3Ke^{-3x} + 12 + 3Ke^{-3x} = 12.$$\nCoincide con el segundo miembro, así que tu solución general está bien. ¿Y ahora qué hacés con el dato $y(0) = 1$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "con $y(0) = 1$: $1 = 4 + K$, $K = -3$, y queda $y = 4 - 3e^{-3x}$",
+      "tutor": "Lo chequeo: en $x = 0$, tu $y = 4 - 3e^{-3x}$ da $4 - 3 = 1$, así que cumple la condición; y como es la general con $K = -3$, ya vimos que al derivar y reemplazar da $12$. ¡Lo resolviste vos de punta a punta! ¿Querés seguir con otra lineal, por ejemplo $y' + y = e^{x}$ con $y(0) = 1$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "¿cómo lo verifico?",
+      "tutor": "Se verifica derivando y reemplazando, no probando un punto suelto. Derivá tu $y = 4 - 3e^{-3x}$, meté $y$ e $y'$ en el primer miembro $y' + 3y$ y fijate si te da $12$ para todo $x$. Aparte, comprobá que en $x = 0$ te da $1$. Probá y contame qué te queda.\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "$y' = 9e^{-3x}$ y $y' + 3y = 9e^{-3x} + 12 - 9e^{-3x} = 12$, da",
+      "tutor": "¡Perfecto! La derivada está bien y los términos con $e^{-3x}$ se cancelan, así que te queda $12$ para todo $x$; con $y(0) = 1$ ya comprobado, tu $y = 4 - 3e^{-3x}$ cumple todo. ¿Seguimos con $y' + y = e^{x}$ y $y(0) = 1$, con el mismo método $y = u \\cdot v$?\n<meta>{\"ejercicio\": null, \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+    },
+    {
+      "estudiante": "genial, ¿qué hago ahora?",
+      "tutor": "Te propongo este: resolvé $y' + y = e^{x}$ con el método $y = u \\cdot v$ y hallá la solución que cumple $y(0) = 1$. Arrancá igual que antes: ¿cuánto valen $P$ y $Q$ acá?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    }
+  ]
+}

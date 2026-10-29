@@ -1,0 +1,23 @@
+id: SEP-03
+tema: separables
+nivel: 3
+enunciado: >-
+  Resolvé $y' = -\frac{[[a|coef]]x}{y}$ y hallá la solución que pasa por $(0\,;\,[[b]])$.
+variables: {independiente: x, funcion: y}
+edo: "p + a*x/y"
+rango_parametros:
+  a: [1, 2, 4]
+  b: [2, 3]
+condicion_inicial: {x0: 0, y0: b}
+solucion_general_implicita: "a*x**2 + y**2 - K"
+solucion_particular: "sqrt(b**2 - a*x**2)"
+errores_esperados: [E03, E04]
+pistas:
+  P1: >-
+    Si multiplicás los dos lados por $y$, ¿qué te queda?
+  P2: >-
+    Pasá la $y$ multiplicando al lado de $dy$ y la $x$ con $dx$: queda separada.
+  P3: >-
+    Separando: $y\,dy = -[[a|coef]]x\,dx$. ¿Cuánto da integrar cada lado?
+  P4: >-
+    Planteá $\int y\,dy = \int -[[a|coef]]x\,dx$. Cuando lo tengas, multiplicá todo por $2$ y mirá qué curva te queda; recién después usá el punto.

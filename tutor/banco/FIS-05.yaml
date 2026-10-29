@@ -1,0 +1,33 @@
+id: FIS-05
+tema: fisica
+nivel: 4
+enunciado: >-
+  Circuito RL: con $L = [[L]]$ H, $R = [[R]]\ \Omega$ y $E = [[E]]$ V, la corriente cumple $[[L]]\,i' + [[R]]\,i = [[E]]$ con $i(0) = 0$. Hallá $i(t)$ (llamá $K$ a la constante de integración), la corriente final y la constante de tiempo.
+enunciado_planteo: >-
+  Una bobina de $L = [[L]]$ H y una resistencia de $R = [[R]]\ \Omega$ se conectan en serie a una fuente de $E = [[E]]$ V; al cerrar la llave no circula corriente. La ley de la malla dice $L\,i' + R\,i = E$. Reemplazá los valores, llevala a la forma $i' + a\,i = b$ y escribí la condición inicial.
+variables: {independiente: t, funcion: i}
+edo: "L*p + R*i - E"
+rango_parametros:
+  L: [2, 1]
+  R: [4]
+  E: [12, 8]
+condicion_inicial: {x0: 0, y0: 0}
+solucion_general: "E/R + K*exp(-R*t/L)"
+solucion_particular: "E/R*(1 - exp(-R*t/L))"
+control: {valor_final: "E/R", tau: "L/R"}
+controles:
+  - {descripcion: "en t = L/R la corriente llega al 63 %", cero: "sol(L/R)/(E/R) - (1 - exp(-1))"}
+errores_esperados: [E09, E06, E03]
+pistas:
+  P1: >-
+    Antes de resolver, ¿cómo la dejás con $i'$ solo, sin nada que lo multiplique?
+  P2: >-
+    Dividí todo por $L$: así aparecen $a = \frac{R}{L}$ y $b = \frac{E}{L}$, y el valor final es $\frac{b}{a}$.
+  P3: >-
+    Dividiendo por $[[L]]$ queda $i' + [[a]]\,i = [[b]]$. ¿Cómo la separás?
+  P4: >-
+    Escribí $i' = -[[a]]\,(i - [[fin]])$ y planteá $\int \frac{1}{i - [[fin]]}\,di = \int -[[a]]\,dt$. Después usá $i(0) = 0$.
+derivados:
+  a: "R/L"
+  b: "E/L"
+  fin: "E/R"

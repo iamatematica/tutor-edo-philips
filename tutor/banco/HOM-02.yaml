@@ -1,0 +1,25 @@
+id: HOM-02
+tema: homogeneas
+nivel: 4
+enunciado: >-
+  Resolvé $y' = \frac{[[a|coef]]x^2 + y^2}{xy}$ para $x > 0$, $y > 0$ con la sustitución $y = ux$ y hallá la solución que cumple $y(1) = [[b]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - (a*x**2 + y**2)/(x*y)"
+f_homogenea: "(a*x**2 + y**2)/(x*y)"
+rango_parametros:
+  a: [1, 2]
+  b: [1, 2]
+condicion_inicial: {x0: 1, y0: b}
+solucion_general: "x*sqrt(2*a*log(x) + K)"
+solucion_general_implicita: "y**2 - 2*a*x**2*log(x) - K*x**2"
+solucion_particular: "x*sqrt(2*a*log(x) + b**2)"
+errores_esperados: [E08, E03]
+pistas:
+  P1: >-
+    ¿Qué grado tienen el numerador y el denominador? ¿Qué tipo de ecuación es?
+  P2: >-
+    Es homogénea: reemplazá $y = ux$ y acordate de que $y'$ no es $xu'$.
+  P3: >-
+    Con $y = ux$ el segundo miembro queda $\frac{[[a|coef]] + u^2}{u}$ y $y' = u + xu'$. Igualá y simplificá: ¿qué te queda para $xu'$?
+  P4: >-
+    Queda $xu' = \frac{[[a|coef]]}{u}$, que se separa: $\int u\,du = \int \frac{[[a|coef]]}{x}\,dx$. Integrá y al volver reemplazá $u = \frac{y}{x}$.
