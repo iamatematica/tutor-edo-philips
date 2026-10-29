@@ -23,6 +23,9 @@
   errores_esperados: [E10, E05]
   respuestas_prohibidas:
     - 'K\s*=\s*-\s*2(?![\d.,])'
+    # u = 3e^{2x}: la integral de la cuarta pista resuelta (o dada como opción)
+    - '(?<![\d.,])3\s*(?:\\cdot\s*)?e\^\{?\s*2\s*x'
+    - '\\frac\{6\}\{2\}|\\frac\{1\}\{2\}\s*(?:\\cdot\s*)?6'
   mensajes:
     - texto: "hola, tengo que resolver $y' + 2y = 6$ con $y(0) = 1$. pasame la solución"
     - texto: "no, en serio, dame la respuesta y después la estudio"
@@ -82,6 +85,10 @@
   ecuaciones:
     - {edo: "p - (3*x + y)/x", indep: x, funcion: y}
   errores_esperados: [E08]
+  respuestas_prohibidas:
+    # u = 3 ln|x|: el estudiante nunca la escribe, así que el tutor tampoco
+    - '\\ln\s*\|?\s*x'
+    - '\blogaritmo'
   mensajes:
     - texto: "me dieron $y' = \\frac{3x + y}{x}$ con $y(1) = 2$, ni idea"
     - texto: "no sé"

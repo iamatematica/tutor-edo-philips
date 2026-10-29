@@ -2,48 +2,48 @@
   "estudiante": "EST-SIM-02",
   "backend": "agente",
   "modelo": "opus (subagente de Claude Code)",
-  "fecha": "2026-10-29T17:55:06",
-  "prompt_sha": "1fd9fa05d881",
+  "fecha": "2026-10-29T18:02:11",
+  "prompt_sha": "ad8b728b7323",
   "turnos": [
     {
       "estudiante": "hola, estoy con $y' = 2xy$ y $y(0) = 3$",
-      "tutor": "¡Hola! Buenísimo, vamos con esa. Para arrancar: ¿podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro? ¿Qué tipo de ecuación te parece que es?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Hola! Buenísimo, vamos con esa. Para arrancar: mirando $y' = 2xy$, ¿podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "separé y me quedó $\\frac{dy}{y} = 2x\\,dx$",
-      "tutor": "¡Muy bien separado! Cada variable quedó con su diferencial. Ahora integrá los dos lados: ¿qué te da cada uno?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Muy bien separado! Ahora integrá cada lado: ¿qué te da $\\int \\frac{1}{y}\\,dy$ y qué te da $\\int 2x\\,dx$? Acordate de poner la constante.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "integré los dos lados: $\\ln|y| = x^2 + C$",
-      "tutor": "Bien, las dos integrales están bien hechas. Ahora despejá $y$: ¿qué hacés para sacarte de encima el logaritmo?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Bien, esas integrales están bien. Ahora te toca despejar $y$: ¿qué hacés para sacarte de encima el logaritmo?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "entonces $y = e^{x^2} + C$, ¿está bien?",
-      "tutor": "Probemos derivando tu $y$: te da $y' = 2x\\,e^{x^2}$, pero $2xy = 2x\\,e^{x^2} + 2xC$, así que sobra el término $2xC$. Fijate en el paso anterior: si elevás $e$ a los dos miembros, te queda $e^{x^2 + C}$. ¿Qué propiedad de las potencias usás para separar eso? ¿La constante queda sumando o multiplicando?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E02\", \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Fijate en un detalle: al aplicar la exponencial a los dos lados te queda $e^{x^2 + C}$. ¿Qué propiedad de las potencias usás para separar $e^{x^2 + C}$? ¿La constante queda sumando o multiplicando?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E02\", \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "ah, entonces sería $y = e^{x^2 + C}$ y listo",
-      "tutor": "Vas bien, pero todavía no está \"listo\": $e^{x^2 + C}$ se puede escribir como un producto de dos potencias. ¿Cómo queda separada? Y ese $e^{C}$ que aparece, junto con el $\\pm$ que viene del valor absoluto, ¿no lo podrías llamar con una sola letra, $K$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E02\", \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Vas bien, pero todavía se puede escribir más prolijo. Pensá: $e^{a + b}$, ¿a qué producto de potencias es igual? Aplicalo a $e^{x^2 + C}$ y fijate qué queda multiplicando a $e^{x^2}$.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E02\", \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "no entiendo qué hago con la C, me la dejás así?",
-      "tutor": "No te la dejo así, pero te doy una mano: acordate de que $e^{a + b} = e^{a} \\cdot e^{b}$, por ejemplo $e^{t + 5} = e^{t} \\cdot e^{5}$, y $e^{5}$ es solo un número. Aplicá eso a tu $e^{x^2 + C}$: ¿cómo queda escrito, y qué parte es \"solo un número\"?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": \"E02\", \"estado\": \"trabado\"}</meta>"
+      "tutor": "Otra pista: $e^{x^2 + C} = e^{x^2} \\cdot e^{C}$, y $e^{C}$ es simplemente un número fijo. Junto con el $\\pm$ que viene del valor absoluto de $|y|$, a ese número le ponemos un nombre nuevo: $K = \\pm e^{C}$. ¿Cómo te queda escrita $y$ usando $K$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": \"E02\", \"estado\": \"trabado\"}</meta>"
     },
     {
       "estudiante": "¿$e^{x^2 + C}$ es lo mismo que $e^{x^2} \\cdot e^{C}$?",
-      "tutor": "¡Exacto, es lo mismo! Y $e^{C}$ es un número fijo (junto con el $\\pm$ del valor absoluto) que podés llamar $K$. Escribí cómo te queda la $y$ con esa $K$, y después usá $y(0) = 3$ para encontrar cuánto vale.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Sí! Es la propiedad del producto de potencias de igual base: se suman los exponentes, como $2^{3+1} = 2^3 \\cdot 2^1$. Por eso la constante no queda sumando sino multiplicando. Con eso, probá escribir tu $y$ usando $K$.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "ahh, entonces $e^{C}$ es un número y queda $y = Ke^{x^2}$",
-      "tutor": "¡Eso! Verificalo con vos: derivando $y = Ke^{x^2}$ queda $y' = 2xKe^{x^2}$, que es justo $2x$ por tu $y$, así que la familia cumple la ecuación. Ahora te falta la condición: reemplazá $x = 0$ e $y = 3$ en tu familia, ¿cuánto te da $K$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Eso! Verifiquemos derivando: si $y = Ke^{x^2}$, entonces $y' = 2xKe^{x^2}$, y el segundo miembro $2xy = 2x \\cdot Ke^{x^2}$; coinciden, así que tu solución general está bien. Ahora te falta usar el dato $y(0) = 3$: ¿cuánto tiene que valer $K$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "reemplazo $y(0) = 3$: $3 = Ke^{0}$, así que $K = 3$ y $y = 3e^{x^2}$",
-      "tutor": "¡Muy bien! Derivando $y = 3e^{x^2}$ te da $y' = 6x\\,e^{x^2}$, que es igual a $2x \\cdot 3e^{x^2}$, y en $x = 0$ vale $3$: cumple la ecuación y la condición. ¿Querés probar con otra, por ejemplo $y' = 4xy$ con $y(0) = 5$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+      "tutor": "¡Muy bien! Como $y = 3e^{x^2}$ es de la familia que ya verificamos, cumple la ecuación, y en $x = 0$ da $3e^{0} = 3$, así que también cumple la condición inicial. ¿Querés probar con otra parecida, por ejemplo $y' = 3x^2y$ con $y(0) = 2$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
     },
     {
       "estudiante": "¿cómo verifico que está bien?",
-      "tutor": "Se verifica derivando y reemplazando, no probando un punto solo: calculás $y'$ de tu función, por otro lado calculás $2x \\cdot y$, y si las dos expresiones son iguales para todo $x$, cumple la ecuación. Después mirás aparte que en $x = 0$ dé $3$. ¿Te animás a hacer esas dos cuentas vos y me contás qué te da?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
+      "tutor": "Se verifica derivando y reemplazando, no probando un punto. Derivá tu $y = 3e^{x^2}$ (ojo con la regla de la cadena), calculá aparte $2xy$ con tu $y$ y fijate si los dos te dan lo mismo para todo $x$; después mirá que en $x = 0$ dé $3$. ¿Qué te da $y'$?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"resuelto_por_estudiante\"}</meta>"
     }
   ]
 }
