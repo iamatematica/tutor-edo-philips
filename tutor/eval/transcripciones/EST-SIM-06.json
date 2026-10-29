@@ -2,48 +2,48 @@
   "estudiante": "EST-SIM-06",
   "backend": "agente",
   "modelo": "opus (subagente de Claude Code)",
-  "fecha": "2026-10-29T16:13:36",
-  "prompt_sha": "33d834d01509",
+  "fecha": "2026-10-29T17:55:06",
+  "prompt_sha": "1fd9fa05d881",
   "turnos": [
     {
       "estudiante": "quiero resolver $y' + y = x$, ¿me ayudás?",
-      "tutor": "¡Dale! Ojo con esa: con el método $y = u \\cdot v$ te termina pidiendo $\\int x\\,e^{x}\\,dx$, y esa integral necesita una herramienta que en el curso no usamos. Te propongo una hermana que sí sale con lo que tenemos: $y' + y = e^{x}$, con la condición $y(0) = 1$. Para arrancar: ¿quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Dale, buena elección para mirar de cerca! Ojo con esa: si la encarás con $y = u \\cdot v$, en algún momento te aparece $\\int x\\,e^{x}\\,dx$, y esa integral necesita una herramienta que en el curso no usamos. Te propongo una hermana que sí se resuelve con lo que tenemos: $y' + y = e^{x}$ con $y(0) = 1$. Para arrancar: ¿quién hace de $P$ y quién de $Q$ en esa?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "¿por qué no se puede? dale, explicame por partes que lo vi en youtube",
-      "tutor": "Está buenísimo que lo hayas visto, pero ese método no entra en el curso y acá no lo vamos a usar; si te interesa, preguntale al profe. Con las integrales que tenemos ($\\int e^{kx}\\,dx$, $\\int \\frac{1}{x}\\,dx$ y las inmediatas) la de $y' + y = e^{x}$ sale entera. Volvamos ahí: comparándola con $y' + P\\,y = Q$, ¿cuánto valen $P$ y $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Entiendo la curiosidad, y está buenísimo que mires videos, pero acá trabajamos solo con integrales inmediatas, y $\\int x\\,e^{x}\\,dx$ no es una de ellas: por eso esa ecuación queda afuera. Lo que vale la pena de esa ecuación lo practicás igual con $y' + y = e^{x}$, que tiene la misma forma. Mirala: ¿qué multiplica a la $y$ y qué queda solo del lado derecho?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "bueno, ¿cuánto da $\\int x e^{x}\\,dx$? solo eso",
-      "tutor": "Esa integral no te la voy a resolver: es justo la que pide la herramienta que el curso no usa. Lo que sí te dejo es una idea para la hermana: con $y = u \\cdot v$, primero elegís $v$ para que se anule todo lo que queda multiplicado por $u$, y después $u$ sale de $u'v = Q$. ¿Te animás a escribir qué te queda al reemplazar $y = uv$ en $y' + y = e^{x}$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"respuesta\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Esa integral no la vamos a resolver acá: necesita un método que no es del curso, y no te la quiero dejar a medias o mal explicada. Volvamos a la hermana, que sí te sale: en $y' + y = e^{x}$, ¿cuánto vale $P$ y cuánto vale $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"respuesta\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "ok, hago la otra: $y' + y = e^{x}$",
-      "tutor": "¡Genial, vamos con esa! Arrancá reemplazando $y = u \\cdot v$ (acordate de derivar con la regla del producto) y agrupá lo que queda multiplicado por $u$. Escribime lo que te da y lo miramos juntos.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Genial! Para arrancar: está en la forma $y' + P\\,y = Q$. ¿Quién hace de $P$ y quién de $Q$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "$P = 1$, entonces $v = e^{-x}$",
-      "tutor": "¡Bien! Ese $v$ cumple $v' + v = 0$, y lo tomaste sin constante, como corresponde. Ahora, con ese $v$, ¿qué ecuación te queda para $u'$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 3, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Bien! Con $P = 1$, si derivás $v = e^{-x}$ te da $v' = -e^{-x}$, así que $v' + v = 0$: ese $v$ te sirve. Ahora, con ese $v$, ¿qué ecuación te queda para $u'$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 3, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "me queda $u' = e^{x} \\cdot e^{x}$, ¿cómo sigue?",
-      "tutor": "¡Eso es! Juntá ese producto en una sola potencia y te queda planteado $u = \\int e^{x} \\cdot e^{x}\\,dx$. Resolvé esa integral con cuidado (fijate qué número aparece adelante) y después armá $y = u \\cdot v$; la condición $y(0) = 1$ va recién al final.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Muy bien, eso es correcto! Juntá el producto con la propiedad de las potencias y te queda planteado $u = \\int e^{2x}\\,dx$. Resolvé esa integral con cuidado y después armá $y = u \\cdot v$. Escribime lo que te da y lo miramos juntos.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "$u = e^{2x} + K$",
-      "tutor": "Buen intento. Hagamos una prueba: si derivás tu $u = e^{2x} + K$, ¿te vuelve a dar exactamente $e^{2x}$, o te sobra algo adelante?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Probemos tu resultado: si derivás $u = e^{2x} + K$, ¿te vuelve a dar $e^{2x}$, o aparece algún número de más adelante? Fijate qué hace la regla de la cadena con ese $2x$ del exponente.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "¿y entonces?",
-      "tutor": "Mirá: la derivada de $e^{2x}$ es $2e^{2x}$, o sea el doble de lo que tenías adentro de la integral. ¿Por qué número tendrías que multiplicar tu $e^{2x}$ para que, al derivarlo, te quede justo $e^{2x}$? Corregí $u$ y escribímelo de nuevo.\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"trabado\"}</meta>"
+      "tutor": "Al derivar tu $u$, la derivada de $e^{2x}$ da $2e^{2x}$, no $e^{2x}$: ahí te aparece un $2$ que sobra. ¿Qué número tendrías que poner adelante de $e^{2x}$ para que, al derivar, ese $2$ se cancele?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E05\", \"estado\": \"trabado\"}</meta>"
     },
     {
       "estudiante": "ah, $u = \\frac{e^{2x}}{2} + K$ y $y = \\frac{e^{x}}{2} + Ke^{-x}$",
-      "tutor": "¡Ahora sí! Verifiquemos derivando: $y' = \\frac{e^{x}}{2} - Ke^{-x}$, y al sumarle tu $y$ los términos con $K$ se cancelan y queda $\\frac{e^{x}}{2} + \\frac{e^{x}}{2} = e^{x}$, igual al segundo miembro. Tu solución general está bien. Te falta la condición $y(0) = 1$: ¿cuánto te da $K$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Ahora sí! Verifiquemos derivando: de tu $y = \\frac{e^{x}}{2} + Ke^{-x}$ sale $y' = \\frac{e^{x}}{2} - Ke^{-x}$, y al sumar $y' + y$ los términos con $K$ se cancelan y queda $\\frac{e^{x}}{2} + \\frac{e^{x}}{2} = e^{x}$, igual que el segundo miembro. Tu solución general está bien. Te falta un detalle: ¿qué $K$ hace que se cumpla $y(0) = 1$?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "¿está bien?",
-      "tutor": "Sí: la solución general que escribiste cumple la ecuación, lo comprobamos derivando y reemplazando. Para cerrar el ejercicio te queda la particular: reemplazá $x = 0$ e $y = 1$ en tu $y$ y despejá $K$. ¿Qué te da?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Sí, la solución general que escribiste está bien: al derivarla y reemplazar, los dos miembros dan $e^{x}$. Para cerrar el ejercicio, reemplazá $x = 0$ en tu $y$, igualalo a $1$ y despejá $K$. ¿Qué te da?\n<meta>{\"ejercicio\": \"LIN-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     }
   ]
 }

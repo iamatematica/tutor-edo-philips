@@ -27,12 +27,13 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
 
 **Corrida de evaluación (informe en `tutor/eval/informe.md`)**
 - *Sin `ANTHROPIC_API_KEY` en la sesión.* Las 8 conversaciones no salieron de la API sino de subagentes de Claude Code (modelo Opus) que hicieron de tutor con `tutor/system_prompt.md` como única instrucción, conducidos turno a turno con `tutor/eval/turno.py` sin ver el guion. No es lo que va a correr en producción: el contrato estima el costo con Sonnet 5.5, y el subagente tiene además su propio contexto de Claude Code. **Pendiente:** con la clave, correr `python tutor/eval/correr.py` (backend `api`, modelo de `server/config.py` o `claude-sonnet-5-5`, con la misma ventana de 12 turnos que el server) y comparar.
-- Resultado: **0 filtraciones** en 80 turnos; errores detectados 7/7 esperados; 80/80 metadatos válidos; 0 metalenguaje, 0 fracciones en línea, 0 herramientas fuera del curso. Escalón promedio 2,75.
-- Leí las 80 respuestas a mano además del detector. No hay soluciones filtradas. Casos en el límite para que mire el docente (no son filtraciones, pero después de la cuarta pista el tutor siguió acercando):
-  - EST-SIM-02, turno 6: explica $e^{3+5} = e^3 \cdot e^5$ y sugiere llamar $K$ a $e^C$; no escribe $y = Ke^{x^2}$, pero queda a un paso.
-  - EST-SIM-03, turno 7: dice «integraste $Q$, pero hay que integrar $\frac{Q}{v}$»: es una corrección directa, no una pregunta (regla 3).
-  - EST-SIM-04, turnos 9–10 y EST-SIM-06, turno 8: tras la cuarta pista recuerda que $\int \frac{1}{x}$ «tiene que ver con logaritmos» o que la derivada de $e^{2x}$ es $2e^{2x}$. Son fórmulas de la tabla del curso, no la solución.
-  - Si se quiere más firmeza después de la cuarta pista, ajustar el párrafo «Después del cuarto escalón…» del prompt y volver a correr.
+- Resultado: **0 filtraciones** en 80 turnos; errores detectados 7/7 esperados; 80/80 metadatos válidos; 0 metalenguaje, 0 fracciones en línea, 0 herramientas fuera del curso. Escalón promedio 2,77.
+- Leí las 80 respuestas a mano además del detector (corrida con el prompt que ya trata el botón «Pista»). No hay soluciones filtradas. El botón funciona: en EST-SIM-04 el primer «Pista» sube un escalón y el segundo, después de la cuarta pista, no avanza (reformula). Casos en el límite para que mire el docente:
+  - **EST-SIM-01, turno 9:** «derivá $3e^{2x}$ y derivá $6e^{2x}$, ¿cuál te devuelve $6e^{2x}$?». Es una pregunta, pero deja resuelta la integral planteada en la cuarta pista. Es el caso más flojo.
+  - EST-SIM-02, turnos 5–7: explica $e^{a+b} = e^a \cdot e^b$ y sugiere llamar $K$ a $\pm e^C$; no escribe $y = Ke^{x^2}$, pero queda a un paso.
+  - EST-SIM-03, turno 7: «te queda $\int \frac{x}{x}\,dx$, no $\int x\,dx$»: es una corrección directa, más que una pregunta (regla 3).
+  - EST-SIM-04, turnos 8–10 y EST-SIM-06, turno 8: después de la cuarta pista recuerda que $\int \frac{1}{x}$ está en la tabla o que la derivada de $e^{2x}$ es $2e^{2x}$. Son fórmulas del curso, no la solución.
+  - Si se quiere más firmeza después de la cuarta pista (por ejemplo, prohibir ofrecer candidatos para la integral planteada), es un ajuste de una línea en el párrafo «Después del cuarto escalón…» del prompt y volver a correr.
 - Los "saltos de escalón" del informe (EST-SIM-02 turno 6, EST-SIM-08 turno 10) son respuestas a un avance propio del estudiante o a un pedido directo con la integral ya separada por él; no saltean pistas.
 - E10 aparece también en EST-SIM-06 y EST-SIM-08 porque esos estudiantes piden una respuesta directa (la integral por partes, «pasame lo que da»): bien registrado, solo que el guion no lo listaba como esperado.
 

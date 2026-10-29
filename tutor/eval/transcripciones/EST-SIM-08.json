@@ -2,48 +2,48 @@
   "estudiante": "EST-SIM-08",
   "backend": "agente",
   "modelo": "opus (subagente de Claude Code)",
-  "fecha": "2026-10-29T16:13:36",
-  "prompt_sha": "33d834d01509",
+  "fecha": "2026-10-29T17:55:06",
+  "prompt_sha": "1fd9fa05d881",
   "turnos": [
     {
       "estudiante": "che, ¿viste el partido de ayer?",
-      "tutor": "¡Jaja, no lo vi, pero espero que haya estado bueno! Volvamos a lo nuestro: ¿te animás con este? Resolvé $y' = 2xy$ y hallá la solución que cumple $y(0) = 1$.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡No lo vi, pero espero que haya estado bueno! ⚽ Volviendo a lo nuestro: ¿te animás con una separable? Resolvé $y' = 2xy$ y hallá la solución que cumple $y(0) = 1$. ¿Por dónde arrancarías?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "contame un chiste",
-      "tutor": "Ahí va uno cortito: ¿por qué la ecuación diferencial fue al psicólogo? Porque no se podía separar de sus problemas. 😄 Ahora sí, volvamos a $y' = 2xy$: ¿podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Ahí va: ¿por qué la constante $K$ nunca se pierde? Porque siempre la integran. Bueno, ahora vos: en $y' = 2xy$, ¿podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "¿me ayudás con la tarea de historia? es sobre la revolución de mayo",
-      "tutor": "Con historia no te puedo ayudar, acá estoy solo para Matemática, ¡pero seguro que te sale! Mientras tanto, seguimos con $y' = 2xy$: ¿podés separar las variables, con la $y$ de un lado y la $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Con historia no te puedo dar una mano acá, eso lo vas a resolver mejor con tu profe de esa materia. Lo mío son las ecuaciones: ¿seguimos con $y' = 2xy$? Fijate si podés juntar la $y$ con su $dy$ y la $x$ con su $dx$.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "bueno, ¿qué es la integración por partes?",
-      "tutor": "Es una herramienta para integrar ciertos productos de funciones, pero en este curso no la usamos: todo lo que vamos a resolver sale con integrales inmediatas como $\\int \\frac{1}{y}\\,dy$ o $\\int 2x\\,dx$. Volviendo a $y' = 2xy$: ¿qué tipo de ecuación te parece que es?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Es una técnica de integración que en este curso no usamos: todo lo que vamos a resolver sale con integrales inmediatas, como $\\int \\frac{1}{y}\\,dy$ o $\\int 2x\\,dx$. De hecho, tu ejercicio $y' = 2xy$ se arregla con esas. Pista: escribí $y'$ como $\\frac{dy}{dx}$ y pasá la $y$ dividiendo; ¿qué te queda?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "resolveme $\\int x e^{x}\\,dx$ aunque sea",
-      "tutor": "Esa integral $\\int x\\,e^{x}\\,dx$ necesita justo la herramienta que el curso no usa, así que no la vamos a hacer acá. Las que sí manejamos son del tipo $\\int e^{kx}\\,dx$ o $\\int \\frac{1}{x}\\,dx$. ¿Probamos con $y' = 2xy$? Pista: escribí $y'$ como $\\frac{dy}{dx}$ y pasá la $y$ dividiendo, así cada variable queda con su diferencial.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"respuesta\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Esa integral, $\\int x\\,e^{x}\\,dx$, necesita justo la herramienta que el curso no usa, así que no la vamos a hacer. Lo que sí podés hacer vos es una hermana parecida, como $y' + y = e^{x}$, que sale con $\\int e^{kx}\\,dx$. Pero antes, terminemos lo tuyo: si separás $y' = 2xy$, ¿qué te queda de cada lado?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"respuesta\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "ok, dame un ejercicio entonces",
-      "tutor": "¡Dale! Te dejo este: resolvé $y' = 2xy$ y hallá la solución que cumple $y(0) = 1$. Arrancá separando las variables y contame qué te queda.\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Dale! Arrancamos con este: resolvé $y' = 2xy$ y hallá la solución que cumple $y(0) = 1$. Para empezar, ¿qué tipo de ecuación te parece que es?\n<meta>{\"ejercicio\": \"SEP-01\", \"tipo_pedido\": \"conversacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "dale, hago $y' = 3x^2y$ con $y(0) = 2$",
-      "tutor": "¡Buenísimo, ese también va! Para arrancar con $y' = 3x^2y$: ¿qué tipo de ecuación es? ¿Qué te permite separar?\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Buenísimo, vamos con $y' = 3x^2y$ y $y(0) = 2$! Primera pregunta: ¿qué tipo de ecuación es? ¿Podés dejar todo lo que tiene $y$ de un lado y lo que tiene $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "¿vos sos una IA? ¿quién te hizo?",
-      "tutor": "Sí, soy una IA, el tutor de Matemática que usa tu curso para practicar ecuaciones diferenciales. Volviendo a $y' = 3x^2y$: ¿podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro?\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "Sí, soy un tutor con inteligencia artificial que acompaña las clases de Matemática de tu curso, y tu profe lee las conversaciones. Volvamos a $y' = 3x^2y$: escribí $y'$ como $\\frac{dy}{dx}$ y fijate cómo agrupar la $y$ con $dy$ y la $x$ con $dx$.\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"conversacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "bueno, separo: $\\frac{dy}{y} = 3x^2\\,dx$",
-      "tutor": "¡Muy bien, eso está perfecto! Ahora integrá cada lado: ¿cuánto te da $\\int \\frac{1}{y}\\,dy$ y cuánto $\\int 3x^2\\,dx$? Escribime lo que te queda.\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"orientacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Bien separado! Ahora integrá los dos lados: ¿cuánto te da $\\int \\frac{1}{y}\\,dy$ y cuánto $\\int 3x^2\\,dx$? Acordate de que el dato $y(0) = 2$ lo usás recién al final.\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     },
     {
       "estudiante": "pasame lo que da que me voy a fútbol",
-      "tutor": "¡Que te vaya bien en el fútbol! La idea es que el resultado lo saques vos, así que te dejo la pista para cuando vuelvas: te queda planteado $\\int \\frac{1}{y}\\,dy = \\int 3x^2\\,dx$. Al pasar del logaritmo a $y$, fijate si la constante queda sumando o multiplicando, y usá $y(0) = 2$ recién al final.\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"respuesta\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+      "tutor": "¡Que te vaya bien en el fútbol! El resultado lo vas a sacar vos, y te falta poco: te quedó $\\int \\frac{1}{y}\\,dy = \\int 3x^2\\,dx$. Cuando vuelvas, escribime lo que te dan esas dos integrales y lo miramos juntos; al pasar del logaritmo a $y$, fijate si la constante queda sumando o multiplicando.\n<meta>{\"ejercicio\": \"SEP-02\", \"tipo_pedido\": \"respuesta\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
     }
   ]
 }
