@@ -1,0 +1,23 @@
+id: SEP-04
+tema: separables
+nivel: 3
+enunciado: >-
+  Resolvé $y' = \frac{[[a|coef]]x}{y}$ y hallá la solución que cumple $y(0) = [[b]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - a*x/y"
+rango_parametros:
+  a: [1, 2, 3]
+  b: [1, 2]
+condicion_inicial: {x0: 0, y0: b}
+solucion_general_implicita: "y**2 - a*x**2 - K"
+solucion_particular: "sqrt(a*x**2 + b**2)"
+errores_esperados: [E03, E04]
+pistas:
+  P1: >-
+    ¿Se puede separar? ¿Qué tendrías que hacer con la $y$ del denominador?
+  P2: >-
+    Pasá la $y$ multiplicando: cada variable queda con su diferencial.
+  P3: >-
+    Queda $y\,dy = [[a|coef]]x\,dx$. ¿Qué integral te queda de cada lado?
+  P4: >-
+    Planteá $\int y\,dy = \int [[a|coef]]x\,dx$, despejá $y^2$ y usá la condición inicial al final.

@@ -1,0 +1,23 @@
+id: SEP-02
+tema: separables
+nivel: 2
+enunciado: >-
+  Resolvé $y' = [[a]]x^2y$ y hallá la solución que cumple $y(0) = [[b]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - a*x**2*y"
+rango_parametros:
+  a: [3, 6, 9]
+  b: [2, 4]
+condicion_inicial: {x0: 0, y0: b}
+solucion_general: "K*exp(a*x**3/3)"
+solucion_particular: "b*exp(a*x**3/3)"
+errores_esperados: [E02, E03, E04]
+pistas:
+  P1: >-
+    ¿Qué tipo de ecuación es? ¿Qué te permite separar?
+  P2: >-
+    Agrupá todo lo que tiene $y$ con $dy$ y todo lo que tiene $x$ con $dx$.
+  P3: >-
+    Queda $\frac{dy}{y} = [[a]]x^2\,dx$. ¿Cuánto da la integral de cada lado?
+  P4: >-
+    Planteá $\int \frac{1}{y}\,dy = \int [[a]]x^2\,dx$. Al pasar del logaritmo a $y$, ¿la constante queda sumando o multiplicando?

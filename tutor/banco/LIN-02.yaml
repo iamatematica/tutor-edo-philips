@@ -1,0 +1,23 @@
+id: LIN-02
+tema: lineales
+nivel: 3
+enunciado: >-
+  Resolvé $y' + [[a|coef]]y = e^{[[a|coef]]x}$ con el método $y = u \cdot v$ y hallá la solución que cumple $y(0) = [[y0]]$.
+variables: {independiente: x, funcion: y}
+edo: "p + a*y - exp(a*x)"
+rango_parametros:
+  a: [1, 2]
+  y0: [1, 2]
+condicion_inicial: {x0: 0, y0: y0}
+solucion_general: "exp(a*x)/(2*a) + K*exp(-a*x)"
+solucion_particular: "exp(a*x)/(2*a) + (y0 - 1/(2*a))*exp(-a*x)"
+errores_esperados: [E05, E07]
+pistas:
+  P1: >-
+    ¿Es lineal? ¿Cuánto valen $P$ y $Q$?
+  P2: >-
+    Con $y = u \cdot v$, primero buscá $v$ anulando lo que multiplica a $u$; después $u$ sale de $u'v = Q$.
+  P3: >-
+    Pedí $v' + [[a|coef]]v = 0$: sale $v = e^{-[[a|coef]]x}$. Ahora, con ese $v$, ¿qué ecuación te queda para $u'$?
+  P4: >-
+    Queda $u' \cdot e^{-[[a|coef]]x} = e^{[[a|coef]]x}$, o sea $u = \int \frac{e^{[[a|coef]]x}}{e^{-[[a|coef]]x}}\,dx$. Simplificá el cociente antes de integrar y no te olvides de multiplicar por $v$ al final.

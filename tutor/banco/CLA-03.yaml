@@ -1,0 +1,22 @@
+id: CLA-03
+tema: clasificacion
+nivel: 2
+enunciado: >-
+  Clasificá la ecuación $[[a|coef]]x\,y''' + [[b]]y' - y = x^{[[n]]}$: orden, grado y si es lineal.
+edo: "a*x*y3 + b*y1 - y - x**n"
+rango_parametros:
+  a: [1, 2]
+  b: [3, 5]
+  n: [2, 3]
+clasificacion: {orden: 3, grado: 1, lineal: true}
+solucion_general: null
+errores_esperados: [E01]
+pistas:
+  P1: >-
+    ¿Cuál es la derivada de mayor orden? ¿Y el exponente que tiene?
+  P2: >-
+    Para que sea lineal, $y$ y sus derivadas tienen que aparecer solo a la primera potencia y sin multiplicarse entre sí; las $x$ pueden estar en cualquier lado.
+  P3: >-
+    La derivada más alta es $y'''$, con exponente $1$. Ahora mirá la $x^{[[n]]}$: ¿afecta a $y$ o a sus derivadas?
+  P4: >-
+    Revisá término por término: ¿alguno tiene $y$, $y'$ o $y'''$ elevada o multiplicada por otra de ellas?

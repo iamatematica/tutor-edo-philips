@@ -1,0 +1,33 @@
+id: FIS-04
+tema: fisica
+nivel: 4
+enunciado: >-
+  Carga de un capacitor: con $C = [[C|dec]]$ F, $R = [[R]]\ \Omega$ y una fuente de $E = [[E]]$ V, la carga cumple $q' + \frac{q}{RC} = \frac{E}{R}$ con $q(0) = 0$. Hallá $q(t)$ en coulomb (llamá $K$ a la constante de integración), la carga final y la constante de tiempo.
+enunciado_planteo: >-
+  Un capacitor descargado de $C = [[C|dec]]$ F se conecta en serie con una resistencia de $R = [[R]]\ \Omega$ a una fuente de $E = [[E]]$ V. La ley de la malla da $R\,q' + \frac{q}{C} = E$. Reemplazá los valores, llevala a la forma $q' + a\,q = b$ y escribí la condición inicial.
+variables: {independiente: t, funcion: q}
+edo: "p + q/(R*C) - E/R"
+rango_parametros:
+  C: ["1/500", "1/1000"]
+  R: [1000, 2000]
+  E: [12, 9]
+condicion_inicial: {x0: 0, y0: 0}
+solucion_general: "C*E + K*exp(-t/(R*C))"
+solucion_particular: "C*E*(1 - exp(-t/(R*C)))"
+control: {valor_final: "C*E", tau: "R*C"}
+controles:
+  - {descripcion: "V(τ) = 63 % de E", cero: "sol(R*C)/(C*E) - (1 - exp(-1))"}
+  - {descripcion: "media carga en RC·ln 2", cero: "sol(R*C*log(2)) - C*E/2"}
+errores_esperados: [E09, E05, E03]
+pistas:
+  P1: >-
+    ¿Cuánto valen $a = \frac{1}{RC}$ y $b = \frac{E}{R}$ con estos datos?
+  P2: >-
+    Con la forma $q' + a\,q = b$, el valor final es $\frac{b}{a}$ y la constante de tiempo $\frac{1}{a}$. Podés separar escribiendo $q' = -a\,(q - \frac{b}{a})$.
+  P3: >-
+    Acá $RC = [[tau]]$ y el valor final es $CE$. Separando: $\frac{dq}{q - [[qf|dec]]} = -\frac{dt}{[[tau]]}$. ¿Qué da integrar?
+  P4: >-
+    Planteá $\int \frac{1}{q - [[qf|dec]]}\,dq = \int -\frac{1}{[[tau]]}\,dt$, despejá $q$ y usá $q(0) = 0$ para la constante.
+derivados:
+  tau: "R*C"
+  qf: "C*E"

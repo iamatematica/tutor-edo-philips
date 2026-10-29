@@ -1,0 +1,24 @@
+id: SIN-01
+tema: singular
+nivel: 3
+enunciado: >-
+  Para $(y')^2 = [[c]]y$: ¿de qué orden y grado es? Hallá la solución general y buscá una solución que no salga de la general para ningún valor de $K$.
+variables: {independiente: x, funcion: y}
+edo: "p**2 - c*y"
+rango_parametros:
+  a: [1, 2, 3]
+derivados:
+  c: "4*a**2"
+  d: "2*a"
+solucion_general: "(a*x + K)**2"
+solucion_singular: "0"
+errores_esperados: [E01, E04]
+pistas:
+  P1: >-
+    ¿Qué pasa si sacás raíz cuadrada en los dos miembros? ¿Cuántas ecuaciones te quedan?
+  P2: >-
+    Queda $y' = \pm [[d]]\sqrt{y}$, que es separable. Y aparte: ¿hay alguna función constante que cumpla la ecuación original?
+  P3: >-
+    Separando: $\frac{dy}{\sqrt{y}} = \pm [[d]]\,dx$. ¿Cuánto da la integral de la izquierda?
+  P4: >-
+    Planteá $\int y^{-\frac{1}{2}}\,dy = \int \pm [[d]]\,dx$ y despejá $y$. Después probá en $(y')^2 = [[c]]y$ la constante que encontraste y fijate si algún $K$ la produce.

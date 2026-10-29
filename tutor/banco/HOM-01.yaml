@@ -1,0 +1,24 @@
+id: HOM-01
+tema: homogeneas
+nivel: 3
+enunciado: >-
+  Resolvé $y' = \frac{[[a]]x + y}{x}$ para $x > 0$ con la sustitución $y = ux$ y hallá la solución que cumple $y(1) = [[b]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - (a*x + y)/x"
+f_homogenea: "(a*x + y)/x"
+rango_parametros:
+  a: [2, 3, 4]
+  b: [1, 2]
+condicion_inicial: {x0: 1, y0: b}
+solucion_general: "a*x*log(x) + K*x"
+solucion_particular: "a*x*log(x) + b*x"
+errores_esperados: [E08, E03]
+pistas:
+  P1: >-
+    Si multiplicás $x$ e $y$ por un mismo número, ¿cambia el segundo miembro? ¿Qué te dice eso?
+  P2: >-
+    Es homogénea: con $y = ux$ todo queda en función de $u$. Derivá $y = ux$ con la regla del producto.
+  P3: >-
+    Con $y = ux$, $y' = u + xu'$ y el segundo miembro queda $[[a]] + u$. Igualá: ¿qué ecuación te queda para $u'$?
+  P4: >-
+    Queda $xu' = [[a]]$, o sea $u = \int \frac{[[a]]}{x}\,dx$. Integrá y al volver a $y = ux$ multiplicá por $x$ todo lo que tengas, constante incluida.
