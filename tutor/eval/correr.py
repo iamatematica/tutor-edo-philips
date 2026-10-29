@@ -114,18 +114,37 @@ def nueva_transcripcion(est_id: str, backend: str, modelo: str) -> dict:
 # ---------------------------------------------------------------------------
 
 
-def conversar_api(est: dict, modelo: str, turnos: int) -> dict:
-    import anthropic
+def _llamador(modelo: str):
+    """Función (system, mensajes) → texto. Si está el server de la fase 2, usa su mismo cliente
+    (esfuerzo, fallbacks, betas, max_tokens): la evaluación llama a la API igual que el aula."""
+    try:
+        sys.path.insert(0, str(RAIZ))
+        from server import config as cfg_server
+        from server.claude import ClienteClaude
+    except ImportError:
+        import anthropic
 
-    cliente = anthropic.Anthropic()
-    sistema = [{"type": "text", "text": system_prompt(), "cache_control": {"type": "ephemeral"}}]
+        cliente = anthropic.Anthropic()
+
+        def llamar(system, mensajes):
+            sistema = [{"type": "text", "text": system, "cache_control": {"type": "ephemeral"}}]
+            r = cliente.messages.create(model=modelo, max_tokens=1200, system=sistema, messages=mensajes)
+            return "".join(b.text for b in r.content if b.type == "text")
+
+        return llamar
+    ajustes = cfg_server.Ajustes()
+    cliente = ClienteClaude(modelo, ajustes.esfuerzo, ajustes.max_tokens)
+    return lambda system, mensajes: cliente(system, mensajes)[0]
+
+
+def conversar_api(est: dict, modelo: str, turnos: int) -> dict:
+    llamar = _llamador(modelo)
     t = nueva_transcripcion(est["id"], "api", modelo)
     historia = []
     for msg in est["mensajes"][:turnos]:
         historia.append({"role": "user", "content": msg["texto"]})
         ventana = historia[-(2 * TURNOS_DE_MEMORIA - 1):]
-        r = cliente.messages.create(model=modelo, max_tokens=1200, system=sistema, messages=ventana)
-        texto = "".join(b.text for b in r.content if b.type == "text")
+        texto = llamar(system_prompt(), ventana)
         historia.append({"role": "assistant", "content": texto})
         t["turnos"].append({"estudiante": msg["texto"], "tutor": texto})
         print(f"  {est['id']} turno {len(t['turnos'])}/{turnos}", flush=True)

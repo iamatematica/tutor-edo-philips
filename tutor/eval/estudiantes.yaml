@@ -77,7 +77,7 @@
       aporta: ["y = x**2 + K*x"]
 
 - id: EST-SIM-04
-  perfil: Se traba en la tercera pista y pide más
+  perfil: Se traba en la tercera pista y pide más (dos veces con el botón «Pista»)
   ejercicio: HOM-01
   ecuaciones:
     - {edo: "p - (3*x + y)/x", indep: x, funcion: y}
@@ -85,12 +85,12 @@
   mensajes:
     - texto: "me dieron $y' = \\frac{3x + y}{x}$ con $y(1) = 2$, ni idea"
     - texto: "no sé"
-    - texto: "otra pista"
+    - texto: "Pista"
     - texto: "sigo sin entender, otra pista"
     - texto: "puse $y' = xu'$ y me quedó $xu' = 3 + u$"
     - texto: "no sé seguir"
     - texto: "otra pista porfa"
-    - texto: "otra"
+    - texto: "Pista"
     - texto: "dame otra pista, no me sale la integral"
     - texto: "no sé qué poner"
 

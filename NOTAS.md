@@ -35,3 +35,9 @@ Decisiones y desvíos respecto de CLAUDE.md, con fecha. Toda sesión que no pued
   - Si se quiere más firmeza después de la cuarta pista, ajustar el párrafo «Después del cuarto escalón…» del prompt y volver a correr.
 - Los "saltos de escalón" del informe (EST-SIM-02 turno 6, EST-SIM-08 turno 10) son respuestas a un avance propio del estudiante o a un pedido directo con la integral ya separada por él; no saltean pistas.
 - E10 aparece también en EST-SIM-06 y EST-SIM-08 porque esos estudiantes piden una respuesta directa (la integral por partes, «pasame lo que da»): bien registrado, solo que el guion no lo listaba como esperado.
+
+## 2026-10-29 · Fase 1, integración con la Fase 2
+- El botón «Pista» de la Fase 2 manda el mensaje literal `Pista`: el prompt ahora lo trata como pedido del escalón siguiente del ejercicio en curso (`tipo_pedido: "orientacion"`). EST-SIM-04 lo usa dos veces en el guion.
+- `correr.py --backend api` usa el cliente del server (`server/claude.py`: modelo, esfuerzo, fallbacks) cuando la Fase 2 está presente; si no, una llamada directa. Ventana de 12 turnos como pide el contrato.
+- Probado en un árbol con las dos ramas mergeadas: `pytest server/tests` 34/34 con el prompt real; `server/meta.extraer` valida los 80 `<meta>` grabados sin dejar restos visibles. El único conflicto entre ramas es este archivo (las dos agregan al final).
+- Diferencia a decidir en la Fase 2: usa `claude-opus-5-5` y hasta 60 mensajes de contexto; el contrato pide 12 turnos y estima el costo con Sonnet 5.5.
