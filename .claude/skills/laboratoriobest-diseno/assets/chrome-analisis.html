@@ -1,0 +1,102 @@
+<!-- ============================================================
+     CHROME laboratoriobest-IA — head + header + footer
+     Copiar tal cual. Reemplazar los {PLACEHOLDERS}.
+     La marca se compone SIEMPRE con los tres <span> pegados
+     (laboratorio·best·-IA) precedidos por el bullet: nunca con
+     espacios ni gap entre fragmentos.
+     ============================================================ -->
+
+<!-- ===== HEAD: fuentes + variables de color ===== -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Paleta base */
+  --navy:#0f2244; --blue:#1d6fcc; --blue2:#2d82e6; --teal:#0ea5e9; --sky:#38bdf8;
+  --bg:#eef6ff; --bg2:#f8fbff; --white:#fff;
+  --g50:#f8fafc; --g100:#f1f5f9; --g200:#e2e8f0; --g300:#cbd5e1;
+  --g500:#64748b; --g600:#475569; --g700:#334155; --g800:#1e293b;
+  --ok:#059669; --ok-bg:#d1fae5; --warn:#d97706;
+  /* Marca — variante sobre PASTILLA CREMA (header/footer con pastilla) */
+  --lab-terra:#b57d4c; --lab-blue:#415a8e; --lab-dark:#20201c; --lab-cream:#faf8f1; --lab-gray:#6579a1;
+  /* Radios y sombra */
+  --r:12px; --rl:16px; --rxl:24px;
+  --sh:0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -1px rgba(0,0,0,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--g800);min-height:100vh}
+
+/* HEADER */
+.topbar{background:linear-gradient(135deg,var(--navy) 0%,#1a3a6e 100%);color:#e0f2fe;padding:14px 0;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.topbar-inner{max-width:1080px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.brand-inspt{font-size:12px;color:#7dd3fc;letter-spacing:.1em;font-weight:700}
+.brand-title{font-family:'Fraunces',serif;font-size:18px;color:#fff;font-weight:700}
+.brand-sub{font-size:12px;color:#bfdbfe}
+
+/* Pastilla de marca (header y footer) */
+.lab-logo{background:var(--lab-cream);padding:8px 18px 7px;border-radius:12px;text-align:left;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.lab-name{display:flex;align-items:center;font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.lab-name .bullet{width:8px;height:8px;border-radius:50%;background:var(--lab-terra);flex-shrink:0;margin-right:7px}
+.lab-name .lab{color:var(--lab-dark)}
+.lab-name .best{color:var(--lab-terra)}
+.lab-name .ia{color:var(--lab-blue)}
+.lab-sub{color:var(--lab-gray);font-size:11px;font-weight:500;margin-top:1px;padding-left:15px;font-family:'Outfit',sans-serif}
+
+/* FOOTER */
+.site-footer{background:var(--navy);color:#cbd5e1;padding:30px 0 24px;margin-top:40px}
+.footer-inner{max-width:1080px;margin:0 auto;padding:0 20px;text-align:center}
+.footer-quote{font-family:'Fraunces',serif;font-style:italic;font-size:1.1rem;color:#e0f2fe;margin-bottom:16px}
+.footer-profs{color:#94a3b8;font-size:13px;margin-bottom:14px}
+.footer-lab{display:inline-block;background:var(--lab-cream);padding:10px 22px 9px;border-radius:12px;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.footer-lab .lab-name{font-size:17px}
+.footer-lab .lab-sub{font-size:12px;padding-left:15px}
+
+@media (max-width:640px){ .topbar-inner{justify-content:center;text-align:center} }
+</style>
+
+<!-- ===== HEADER ===== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div>
+        <div class="brand-inspt">I·N·S·P·T &nbsp;·&nbsp; UTN</div>
+        <div class="brand-title">{TITULO_DEL_RECURSO}</div>
+        <div class="brand-sub">Análisis Matemático I &nbsp;·&nbsp; Prof. Ariel Cardozo &nbsp;·&nbsp; Prof. Pablo Mosquera</div>
+      </div>
+    </div>
+    <div class="lab-logo">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== CONTENIDO ===== -->
+<main id="main-content">
+  {CONTENIDO}
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-quote">"La matemática no exige genios, exige constancia."</div>
+    <div class="footer-profs">Prof. Ariel Cardozo &nbsp;·&nbsp; Prof. Pablo Mosquera</div>
+    <div class="footer-lab">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     VARIANTE B — marca DIRECTA sobre navy (sin pastilla)
+     Usada en las SPA de etapas de la Unidad 3 (pie #131f3d).
+     Los colores cambian porque el fondo es oscuro:
+       bullet        #b57d4c
+       "laboratorio" #f5efe3   (crema claro, no #20201c)
+       "best"        #c98b52
+       "-IA"         #8ba7dd
+     Regla que se mantiene: fragmentos pegados, sin gap; el margen
+     va solo en el bullet. Elegir pastilla-crema O navy-directo según
+     el fondo, nunca "laboratorio" oscuro sobre navy (no se lee).
+     ============================================================ -->

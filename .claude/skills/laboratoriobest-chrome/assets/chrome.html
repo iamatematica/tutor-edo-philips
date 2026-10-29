@@ -1,0 +1,181 @@
+<!--
+  Chrome oficial de laboratoriobest-IA: encabezado y pie ya validados.
+  Copiar tal cual y cambiar SOLO los tres textos marcados con [CAMBIAR].
+  No agregar líneas de acreditación fuera de la bajada del logo.
+-->
+
+<!-- ============ VARIABLES DE MARCA (dentro de :root) ============ -->
+<style>
+:root {
+  --lab-terra: #b57d4c;
+  --lab-blue: #415a8e;
+  --lab-dark: #20201c;
+  --lab-cream: #faf8f1;
+  --lab-gray: #6579a1;
+  --navy: #0f2244;
+  --lab-cream: #faf8f1;
+}
+
+/* ============ CSS del chrome ============ */
+.topbar {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 100%);
+  color: #e0f2fe;
+  padding: 14px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+.topbar-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.brand-inspt {
+  font-size: 12px;
+  color: #7dd3fc;
+  letter-spacing: .1em;
+  font-weight: 700;
+}
+.brand-title {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+}
+.brand-sub {
+  font-size: 12px;
+  color: #bfdbfe;
+}
+.lab-logo {
+  background: var(--lab-cream);
+  padding: 8px 18px 7px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+}
+.lab-name {
+  display: flex;
+  align-items: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.lab-name .bullet { width: 8px; height: 8px; border-radius: 50%; background: var(--lab-terra); flex-shrink: 0; margin-right: 7px; }
+.lab-name .lab { color: var(--lab-dark); }
+.lab-name .best { color: var(--lab-terra); }
+.lab-name .ia { color: var(--lab-blue); }
+.lab-sub {
+  color: var(--lab-gray);
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 1px;
+  padding-left: 15px;
+  font-family: 'Outfit', sans-serif;
+}
+.ej-lab {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+.ej-lab .bullet { width: 6px; height: 6px; border-radius: 50%; background: var(--lab-terra); margin-right: 5px; }
+.ej-lab .lab { color: var(--lab-dark); opacity: .75; }
+.ej-lab .best { color: var(--lab-terra); }
+.ej-lab .ia { color: var(--lab-blue); }
+.site-footer {
+  background: var(--navy);
+  color: #cbd5e1;
+  padding: 30px 0 24px;
+  margin-top: 40px;
+}
+.footer-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+}
+.footer-quote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #e0f2fe;
+  margin-bottom: 16px;
+}
+.footer-lab {
+  display: inline-block;
+  background: var(--lab-cream);
+  padding: 10px 22px 9px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.footer-lab {
+  display: inline-block;
+  background: var(--lab-cream);
+  padding: 10px 22px 9px;
+  border-radius: 12px;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.footer-lab .lab-name {
+  display: flex;
+  align-items: center;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.footer-lab .bullet { width: 8px; height: 8px; border-radius: 50%; background: var(--lab-terra); flex-shrink: 0; margin-right: 7px; }
+.footer-lab .lab { color: var(--lab-dark); }
+.footer-lab .best { color: var(--lab-terra); }
+.footer-lab .ia { color: var(--lab-blue); }
+.footer-lab .lab-sub {
+  color: var(--lab-gray);
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: 1px;
+  padding-left: 15px;
+  font-family: 'Outfit', sans-serif;
+}
+</style>
+
+<!-- ============ ENCABEZADO ============ -->
+<!-- HEADER -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div>
+        <div class="brand-inspt">U·N·S·A·M &nbsp;·&nbsp; EEyN</div>
+        <div class="brand-title">Resoluciones · TP Límite y Continuidad</div>
+        <div class="brand-sub">Análisis Matemático I</div>
+      </div>
+    </div>
+    <div class="lab-logo">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PIE ============ -->
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-quote">"La matemática no exige genios, exige constancia."</div>
+    <div class="footer-lab">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</footer>

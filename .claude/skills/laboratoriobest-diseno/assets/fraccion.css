@@ -1,0 +1,50 @@
+/* ============================================================
+   FRACCIÓN APILADA — componente oficial laboratoriobest-IA
+   Numerador arriba, barra, denominador abajo. SIEMPRE.
+   Nunca una división en línea con "/" en contenido matemático.
+   CSS puro: cero librerías, entra sin problemas en el iframe de Moodle.
+   ============================================================ */
+
+/* Envolvente de toda una fórmula display. Alinea al MISMO centro
+   vertical el prefijo (f ′(x₀) =), el operador lim con su tendencia,
+   y la fracción apilada: así el límite no queda flotando más arriba
+   que el resto. Este align-items:center es la pieza clave. */
+.fx {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .22em;
+  flex-wrap: wrap;
+  line-height: 1.15;
+  font-family: 'Cambria Math', 'Times New Roman', serif;
+  font-style: italic;
+}
+
+/* Operadores en redonda dentro del contexto itálico: lim, sen, cos, ln, log… */
+.fx .op, .op { font-style: normal; }
+
+/* La fracción: columna con barra (border-top del denominador).
+   currentColor hace que la barra tome el color del texto. */
+.fr { display: inline-flex; flex-direction: column; text-align: center; margin: 0 .12em; }
+.fr .fn { padding: 0 .55em .1em; }                       /* numerador */
+.fr .fd { padding: .1em .55em 0; border-top: 1.6px solid currentColor; } /* denominador */
+
+/* ------------------------------------------------------------
+   USO — definición de derivada por límite (nota: al apilar,
+   los corchetes [ ] del numerador sobran; la barra ya agrupa).
+
+   <span class="fx">f ′(x₀) = <span class="op">lim</span><sub>h→0</sub>
+     <span class="fr">
+       <span class="fn">f(x₀+h) − f(x₀)</span>
+       <span class="fd">h</span>
+     </span>
+   </span>
+
+   USO — fracción suelta dentro de un renglón de texto:
+   (f · g)′ = f ′ · g + f · g ′ ,   (f / g)′ =
+     <span class="fr"><span class="fn">f ′ · g − f · g ′</span><span class="fd">g²</span></span>
+
+   Para fracciones anidadas o exponentes en numerador/denominador,
+   escribirlos con <sup>/<sub> dentro de .fn / .fd; el border-top
+   siempre marca la barra principal.
+   ------------------------------------------------------------ */

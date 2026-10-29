@@ -1,0 +1,38 @@
+<!-- ============================================================
+     MARCA laboratoriobest-IA — núcleo neutro (sin tema)
+     Fragmentos pegados, bullet adelante, sin gap (margen solo en bullet).
+     Para el chrome completo con paleta y header de una materia,
+     ver assets/chrome-analisis.html o el tema correspondiente.
+     ============================================================ -->
+<style>
+.lab-name{display:flex;align-items:center;font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.01em;line-height:1.2}
+.lab-name .bullet{width:8px;height:8px;border-radius:50%;background:#b57d4c;flex-shrink:0;margin-right:7px}
+/* Variante A — sobre pastilla crema */
+.lab-name .lab{color:#20201c}
+.lab-name .best{color:#b57d4c}
+.lab-name .ia{color:#415a8e}
+.lab-sub{color:#6579a1;font-size:11px;font-weight:500;margin-top:1px;padding-left:15px;font-family:inherit}
+.lab-pill{display:inline-block;background:#faf8f1;padding:8px 18px 7px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.15);text-align:left}
+/* Variante B — directa sobre fondo oscuro (sin pastilla) */
+.lab-name.on-dark .lab{color:#f5efe3}
+.lab-name.on-dark .best{color:#c98b52}
+.lab-name.on-dark .ia{color:#8ba7dd}
+</style>
+
+<!-- Marca (variante A, sobre pastilla) -->
+<div class="lab-pill">
+  <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+  <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+</div>
+
+<!-- Footer invariante (reemplazar {PROF_A} · {PROF_B} por el equipo de la materia) -->
+<footer class="site-footer">
+  <div class="footer-inner" style="text-align:center">
+    <div class="footer-quote" style="font-family:'Fraunces',serif;font-style:italic">"La matemática no exige genios, exige constancia."</div>
+    <div class="footer-profs">{PROF_A} · {PROF_B}</div>
+    <div class="lab-pill" style="margin-top:12px">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</footer>
