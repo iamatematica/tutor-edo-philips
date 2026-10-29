@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-03",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T18:02:13",
+  "prompt_sha": "ad8b728b7323",
+  "turnos": [
+    {
+      "estudiante": "tengo $y' - \\frac{y}{x} = x$ con $y(1) = 2$, no sé cómo arrancar",
+      "tutor": "¡Buenísimo, arrancamos! Es una lineal de primer orden, así que primero fijate en su forma $y' + P\\,y = Q$: ¿quién hace de $P$ y quién de $Q$ acá? Ojo con el signo.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ok, $P = -\\frac{1}{x}$ y $Q = x$",
+      "tutor": "¡Exacto, con el signo y todo! Ahora proponé $y = u \\cdot v$: primero buscá un $v$ que cumpla $v' - \\frac{v}{x} = 0$, y después sacás $u$ de $u' \\cdot v = Q$. ¿Qué $v$ te sale?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "para v puse $v' - \\frac{v}{x} = 0$ y me dio $v = Cx$",
+      "tutor": "Bien la ecuación para $v$, y la forma $x$ está buenísima. Una pregunta: en el método $y = u \\cdot v$, ¿necesitás toda la familia de $v$ o te alcanza con un $v$ cualquiera que anule ese término? ¿Dónde va a aparecer la constante $K$ al final?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "ah, sin constante: $v = x$. después hice $u' = Q$, así que $u = \\frac{x^2}{2} + C$",
+      "tutor": "¡Bien, $v = x$! Ahora mirá la ecuación para $u$: al reemplazar $y = u \\cdot v$, lo que queda es $u' \\cdot v = Q$. ¿Es lo mismo que $u' = Q$, o te falta algo?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "entonces la respuesta es $u = \\frac{x^2}{2} + C$",
+      "tutor": "Ojo, que ahí todavía no llegamos. Pista: con $v = x$, la ecuación para $u$ queda $u' \\cdot x = x$. Despejá $u'$ de ahí: ¿cuánto te da?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 3, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "bueno, $y = u \\cdot v = \\frac{x^3}{2} + Cx$",
+      "tutor": "Bien que armaste $u \\cdot v$. Verifiquemos derivando: si $y = \\frac{x^3}{2} + Cx$, entonces $y' = \\frac{3x^2}{2} + C$, y al reemplazar el primer miembro $y' - \\frac{y}{x}$ te da $x^2$, no $x$. La diferencia viene de tu $u$: ¿lo sacaste de $u' = x$ o de $u' \\cdot x = x$?\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": \"E07\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no entiendo por qué está mal",
+      "tutor": "Tranqui, vamos despacio. Otra pista: de $u' \\cdot x = x$ pasás la $x$ dividiendo y te queda $u = \\int \\frac{x}{x}\\,dx$, no $\\int x\\,dx$. Simplificá eso, integralo y después armá de nuevo $y = u \\cdot v$; escribime lo que te da y lo miramos.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E07\", \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra pista",
+      "tutor": "Ya tenés todo planteado: mirá lo que quedó adentro de $\\int \\frac{x}{x}\\,dx$. ¿A qué se simplifica $\\frac{x}{x}$? Con eso, la integral sale de la tabla de inmediatas del curso; probá y escribime tu intento.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "¿entonces es $u' \\cdot x = x$?",
+      "tutor": "¡Sí, esa es la ecuación para $u$! Sale de que, al reemplazar $y = u \\cdot v$, lo que sobrevive es $u' \\cdot v = Q$, y acá $v = x$ y $Q = x$. Ahora despejá $u'$, integrá y escribime qué $u$ te da.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "me da $u = x + K$, así que $y = x^2 + Kx$",
+      "tutor": "¡Verifiquemos! Derivando tu $y = x^2 + Kx$ queda $y' = 2x + K$, y $\\frac{y}{x} = x + K$; restando, el primer miembro da $x$, que es justo el segundo miembro: tu solución general está bien. Te falta el último paso: usá $y(1) = 2$ para encontrar $K$ y escribime la particular.\n<meta>{\"ejercicio\": \"LIN-04\", \"tipo_pedido\": \"verificacion\", \"escalon\": 0, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    }
+  ]
+}

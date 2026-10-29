@@ -1,0 +1,21 @@
+id: CLA-02
+tema: clasificacion
+nivel: 2
+enunciado: >-
+  Clasificá la ecuación $(y'')^{[[a]]} + [[b]]y' = x$: orden, grado y si es lineal.
+edo: "y2**a + b*y1 - x"
+rango_parametros:
+  a: [2, 3]
+  b: [2, 3, 5]
+clasificacion: {orden: 2, grado: a, lineal: false}
+solucion_general: null
+errores_esperados: [E01]
+pistas:
+  P1: >-
+    ¿Qué derivadas aparecen? ¿Cuál es la de mayor orden?
+  P2: >-
+    El grado se lee en la derivada de mayor orden: es el exponente al que está elevada.
+  P3: >-
+    La derivada de mayor orden es $y''$, entonces el orden es $2$. ¿Qué exponente tiene $y''$?
+  P4: >-
+    Mirá el exponente de $(y'')$ y pensá: si una derivada aparece elevada a una potencia, ¿puede ser lineal?

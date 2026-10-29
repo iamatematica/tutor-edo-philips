@@ -1,0 +1,23 @@
+id: LIN-03
+tema: lineales
+nivel: 3
+enunciado: >-
+  Resolvé $y' + \frac{y}{x} = [[a]]$ para $x > 0$ con el método $y = u \cdot v$ y hallá la solución que cumple $y(1) = [[y0]]$.
+variables: {independiente: x, funcion: y}
+edo: "p + y/x - a"
+rango_parametros:
+  a: [2, 3, 4]
+  y0: [1, 2]
+condicion_inicial: {x0: 1, y0: y0}
+solucion_general: "a*x/2 + K/x"
+solucion_particular: "a*x/2 + (y0 - a/2)/x"
+errores_esperados: [E06, E07]
+pistas:
+  P1: >-
+    ¿Quién es $P$ acá? Mirá bien qué multiplica a la $y$.
+  P2: >-
+    $P = \frac{1}{x}$. Con $y = u \cdot v$, elegí $v$ con $v' + \frac{v}{x} = 0$.
+  P3: >-
+    Esa ecuación para $v$ es separable: $\frac{dv}{v} = -\frac{dx}{x}$. ¿Qué $v$ te da (sin constante)?
+  P4: >-
+    Con $v = \frac{1}{x}$ queda $u' \cdot \frac{1}{x} = [[a]]$, así que $u = \int [[a]]x\,dx$. Integrá y armá $y = u \cdot v$.

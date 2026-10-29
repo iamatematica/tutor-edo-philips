@@ -1,0 +1,28 @@
+id: FIS-01
+tema: fisica
+nivel: 2
+enunciado: >-
+  Desintegración radiactiva: la cantidad de núcleos cumple $N' = -[[r|dec]]\,N$ ($t$ en años) y al principio hay $N(0) = [[N0]]$. Hallá $N(t)$ (llamá $K$ a la constante de integración). ¿Cuál es el valor final y cuál la constante de tiempo?
+enunciado_planteo: >-
+  Una muestra radiactiva se desintegra con una velocidad proporcional a la cantidad de núcleos presentes, con constante de proporcionalidad $[[r|dec]]$ por año. Al principio hay $[[N0]]$ núcleos. Planteá la ecuación diferencial para $N(t)$ y la condición inicial (sin resolverla todavía).
+variables: {independiente: t, funcion: N}
+edo: "p + r*N"
+rango_parametros:
+  r: ["1/10", "1/5"]
+  N0: [800, 500]
+condicion_inicial: {x0: 0, y0: N0}
+solucion_general: "K*exp(-r*t)"
+solucion_particular: "N0*exp(-r*t)"
+control: {valor_final: 0, tau: "1/r"}
+controles:
+  - {descripcion: "a los 1/r años queda el 37 %", cero: "sol(1/r) - N0*exp(-1)"}
+errores_esperados: [E09, E03, E02]
+pistas:
+  P1: >-
+    ¿Qué tipo de ecuación es $N' = -[[r|dec]]\,N$? ¿Se puede separar?
+  P2: >-
+    Separá: todo lo que tiene $N$ con $dN$ y el resto con $dt$. La condición inicial va al final.
+  P3: >-
+    Queda $\frac{dN}{N} = -[[r|dec]]\,dt$. ¿Qué da integrar cada lado?
+  P4: >-
+    Planteá $\int \frac{1}{N}\,dN = \int -[[r|dec]]\,dt$. Al despejar $N$, la constante sale multiplicando; después usá $N(0) = [[N0]]$.

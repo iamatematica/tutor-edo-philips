@@ -1,0 +1,23 @@
+id: SEP-01
+tema: separables
+nivel: 2
+enunciado: >-
+  Resolvé $y' = [[a]]xy$ y hallá la solución que cumple $y(0) = [[b]]$.
+variables: {independiente: x, funcion: y}
+edo: "p - a*x*y"
+rango_parametros:
+  a: [2, 4, 6]
+  b: [1, 3, 5]
+condicion_inicial: {x0: 0, y0: b}
+solucion_general: "K*exp(a*x**2/2)"
+solucion_particular: "b*exp(a*x**2/2)"
+errores_esperados: [E02, E03, E04]
+pistas:
+  P1: >-
+    ¿Podés dejar todo lo que tiene $y$ de un lado y todo lo que tiene $x$ del otro?
+  P2: >-
+    Escribí $y'$ como $\frac{dy}{dx}$ y pasá la $y$ dividiendo: así cada variable queda con su diferencial.
+  P3: >-
+    Separando queda $\frac{dy}{y} = [[a]]x\,dx$. ¿Qué integral te queda de cada lado?
+  P4: >-
+    Te queda planteado $\int \frac{1}{y}\,dy = \int [[a]]x\,dx$. Resolvé las dos y, al despejar $y$, fijate bien qué le pasa a la constante. La condición inicial va recién al final.

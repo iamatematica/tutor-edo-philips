@@ -1,0 +1,30 @@
+id: SIN-02
+tema: singular
+nivel: 4
+enunciado: >-
+  La solución general de $(y')^2 = [[c]]y$ es una familia de parábolas. Hallá todas las soluciones que pasan por $([[x0]]\,;\,[[y0]])$. ¿Cuántas hay?
+variables: {independiente: x, funcion: y}
+edo: "p**2 - c*y"
+rango_parametros:
+  a: [1, 2]
+  x0: [1, 2]
+  y0: [4, 9]
+derivados:
+  c: "4*a**2"
+  d: "2*a"
+condicion_inicial: {x0: x0, y0: y0}
+solucion_general: "(a*x + K)**2"
+solucion_particular:
+  - "(a*x + sqrt(y0) - a*x0)**2"
+  - "(a*x - sqrt(y0) - a*x0)**2"
+solucion_singular: "0"
+errores_esperados: [E03, E04]
+pistas:
+  P1: >-
+    Antes de usar el punto, ¿tenés la solución general? ¿Qué forma tiene?
+  P2: >-
+    Primero la general (sacando raíz y separando), y recién ahí reemplazás el punto para encontrar $K$.
+  P3: >-
+    Sacando raíz queda $y' = \pm [[d]]\sqrt{y}$; separá e integrá. ¿Qué te da?
+  P4: >-
+    Con la general en la mano, reemplazá $x = [[x0]]$ e $y = [[y0]]$. Te queda una ecuación en $K$ con un cuadrado: ¿cuántas soluciones tiene?

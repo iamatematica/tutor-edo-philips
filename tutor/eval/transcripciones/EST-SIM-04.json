@@ -1,0 +1,49 @@
+{
+  "estudiante": "EST-SIM-04",
+  "backend": "agente",
+  "modelo": "opus (subagente de Claude Code)",
+  "fecha": "2026-10-29T18:02:11",
+  "prompt_sha": "ad8b728b7323",
+  "turnos": [
+    {
+      "estudiante": "me dieron $y' = \\frac{3x + y}{x}$ con $y(1) = 2$, ni idea",
+      "tutor": "¡Arrancamos juntos! Mirá el segundo miembro, $\\frac{3x + y}{x}$: si multiplicás $x$ e $y$ por un mismo número $t$, ¿cambia o queda igual? ¿Qué te dice eso sobre el tipo de ecuación?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 1, \"error_detectado\": null, \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no sé",
+      "tutor": "Tranqui, vamos de a poco. Si cambiás $x$ por $tx$ e $y$ por $ty$, la $t$ se simplifica y el cociente queda igual: eso dice que es homogénea. En estas conviene la sustitución $y = ux$, y ojo que $y = ux$ es un producto, así que hay que derivarla con la regla del producto. ¿Probás calcular $y'$?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 2, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "Pista",
+      "tutor": "Pista: con $y = ux$ queda $y' = u + xu'$, y el segundo miembro se transforma en $\\frac{3x + ux}{x} = 3 + u$. Ahora igualá las dos cosas: ¿qué ecuación te queda para $xu'$?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 3, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "sigo sin entender, otra pista",
+      "tutor": "Otra pista: al igualar, la $u$ está en los dos lados y se va, y te queda $xu' = 3$. Eso se separa, así que te queda planteado\n$$u = \\int \\frac{3}{x}\\,dx$$\nResolvé esa integral y, cuando vuelvas a $y = ux$, multiplicá por $x$ todo lo que tengas, constante incluida.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "puse $y' = xu'$ y me quedó $xu' = 3 + u$",
+      "tutor": "Bien que lo escribiste, así lo miramos. Fijate en $y' = xu'$: ¿$y = ux$ es un producto de dos cosas que dependen de $x$? ¿Cómo se deriva un producto? Revisá esa derivada y volvé a igualar con $3 + u$.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"verificacion\", \"escalon\": 4, \"error_detectado\": \"E08\", \"estado\": \"avanzando\"}</meta>"
+    },
+    {
+      "estudiante": "no sé seguir",
+      "tutor": "Vamos con lo que ya tenés. Acordate de la regla del producto: la derivada de $f \\cdot g$ es $f' \\cdot g + f \\cdot g'$. En $y = u \\cdot x$, ¿cuánto vale la derivada de $x$? Escribime cómo te queda $y'$ con eso y lo miramos juntos.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": \"E08\", \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "otra pista porfa",
+      "tutor": "Te lo repito con otras palabras: al derivar $y = ux$ aparecen dos términos, $u$ (porque la derivada de $x$ es $1$) y $xu'$, o sea $y' = u + xu'$; vos te quedaste solo con el segundo. Igualá eso a $3 + u$ y fijate qué pasa con la $u$; después te queda la integral $\\int \\frac{3}{x}\\,dx$. ¿Qué te da a vos?\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "Pista",
+      "tutor": "Ya tenés todo planteado: $u = \\int \\frac{3}{x}\\,dx$. Esa integral está en la tabla de integrales inmediatas del curso; el $3$ es una constante que podés sacar afuera. Probá escribir lo que te da, aunque no estés seguro, y lo revisamos juntos.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "dame otra pista, no me sale la integral",
+      "tutor": "Pensalo al revés: ¿qué función conocés cuya derivada sea $\\frac{1}{x}$? Buscala en la tabla de integrales inmediatas del curso, multiplicala por el $3$ y sumale $K$. Escribime tu intento y lo verificamos derivando.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    },
+    {
+      "estudiante": "no sé qué poner",
+      "tutor": "Está bien trabarse acá, no pasa nada. Abrí la tabla de integrales inmediatas de la carpeta y buscá el renglón donde aparece $\\frac{1}{x}$: con eso ya podés escribir $u$. Mandame lo que pongas, aunque sea con dudas, y lo comprobamos derivando.\n<meta>{\"ejercicio\": \"HOM-01\", \"tipo_pedido\": \"orientacion\", \"escalon\": 4, \"error_detectado\": null, \"estado\": \"trabado\"}</meta>"
+    }
+  ]
+}
