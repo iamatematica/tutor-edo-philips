@@ -1,0 +1,23 @@
+# Datos de los estudiantes y claves: nunca al repo
+datos/
+*.db
+*.sqlite
+.env
+.env.*
+codigos*.txt
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Node / Playwright
+node_modules/
+test-results/
+playwright-report/
+
+# Sistema
+.DS_Store
+Thumbs.db
