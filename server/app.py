@@ -6,6 +6,8 @@ Rutas:
 - POST /api/mensaje    {texto, pista}          → {respuesta, etiqueta_pista, limite_alcanzado}
 - GET  /api/historial                          → {mensajes, etiqueta_pista}
 - GET  /api/salud
+- /api/metricas…       panel docente, con DOCENTE_KEY (ver server/panel.py)
+- /panel/              front estático del panel docente (panel/)
 - /                    front estático de web/
 
 Correr local: uvicorn server.app:app --reload
@@ -21,6 +23,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -28,6 +31,7 @@ from . import acceso, config
 from .claude import ClienteClaude, ErrorTutor, Responder
 from .db import BaseDatos, ahora
 from .meta import extraer
+from .panel import crear_router
 
 log = logging.getLogger("tutor")
 
@@ -241,6 +245,14 @@ def crear_app(ajustes: config.Ajustes | None = None, responder: Responder | None
 
         return {"respuesta": tutor["texto"], "etiqueta_pista": etiqueta_pista(bd, est_id), "limite_alcanzado": False}
 
+    app.include_router(crear_router())
+
+    @app.get("/panel", include_in_schema=False)
+    def panel_sin_barra():
+        return RedirectResponse("/panel/")
+
+    if ajustes.panel.is_dir():
+        app.mount("/panel", StaticFiles(directory=ajustes.panel, html=True), name="panel")
     if ajustes.web.is_dir():
         app.mount("/", StaticFiles(directory=ajustes.web, html=True), name="web")
     return app

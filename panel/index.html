@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f2244">
+<meta name="robots" content="noindex">
+<title>Panel docente · Ecuaciones diferenciales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" crossorigin="anonymous">
+<!-- Mismo tema que el chat de los estudiantes (web/estilos.css), más lo propio del panel. -->
+<link rel="stylesheet" href="../estilos.css">
+<link rel="stylesheet" href="panel.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="panel.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div>
+        <div class="brand-inspt">Escuela Philips</div>
+        <div class="brand-title">Panel docente · Tutor de ecuaciones diferenciales</div>
+        <div class="brand-sub">Matemática · 5.º año</div>
+      </div>
+    </div>
+    <div class="lab-logo">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</header>
+
+<main class="principal panel">
+
+  <section id="vista-clave" class="vista" hidden>
+    <div class="tarjeta login">
+      <div class="badge">Docente</div>
+      <h1>Panel del tutor</h1>
+      <p class="bajada">Ingresá la clave de docente para ver la actividad del curso.</p>
+      <form id="form-clave" novalidate>
+        <label for="campo-clave">Clave de docente</label>
+        <input id="campo-clave" name="clave" type="password" autocomplete="current-password" spellcheck="false" required>
+        <p id="error-clave" class="aviso" role="alert" hidden></p>
+        <button type="submit" class="boton boton-primario" id="boton-clave">Entrar</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="vista-panel" class="vista" hidden>
+    <div class="barra-panel">
+      <p class="actualizado">Datos al <span id="generado">—</span> · hora de Buenos Aires</p>
+      <div class="barra-acciones">
+        <button type="button" class="boton-texto" data-accion="actualizar">Actualizar</button>
+        <button type="button" class="boton-texto" data-accion="salir">Salir</button>
+      </div>
+    </div>
+    <p id="aviso-panel" class="aviso" role="alert" hidden></p>
+
+    <nav class="pestanas" role="tablist">
+      <button type="button" role="tab" data-pestana="curso" aria-selected="true">Curso</button>
+      <button type="button" role="tab" data-pestana="estudiantes" aria-selected="false">Estudiantes</button>
+      <button type="button" role="tab" data-pestana="ejercicios" aria-selected="false">Ejercicios y errores</button>
+      <button type="button" role="tab" data-pestana="conversaciones" aria-selected="false">Conversaciones</button>
+      <button type="button" role="tab" data-pestana="exportar" aria-selected="false">Exportar</button>
+    </nav>
+
+    <!-- ===== Curso ===== -->
+    <div class="hoja" data-hoja="curso">
+      <div class="tiles" id="tiles"></div>
+
+      <div class="rejilla">
+        <article class="tarjeta bloque" id="bloque-costo">
+          <h2>Costo estimado</h2>
+          <div id="costo"></div>
+        </article>
+        <article class="tarjeta bloque">
+          <h2>Ingresos por semana</h2>
+          <div id="semanas" class="barras"></div>
+        </article>
+        <article class="tarjeta bloque">
+          <h2>Qué pide el estudiante</h2>
+          <p class="nota">Turnos según lo que pidió en su mensaje.</p>
+          <div id="pedidos" class="barras"></div>
+        </article>
+        <article class="tarjeta bloque">
+          <h2>Dispositivo</h2>
+          <p class="nota">Sesiones abiertas desde cada tipo de dispositivo.</p>
+          <div id="dispositivos" class="barras"></div>
+        </article>
+      </div>
+    </div>
+
+    <!-- ===== Estudiantes ===== -->
+    <div class="hoja" data-hoja="estudiantes" hidden>
+      <p class="nota">Tocá un encabezado para ordenar; tocá el identificador para leer su conversación. Los 35 aparecen aunque no hayan entrado nunca.</p>
+      <div class="tabla-envoltura">
+        <table class="tabla" id="tabla-estudiantes"></table>
+      </div>
+      <h2 class="titulo-hoja">Ingresos por semana</h2>
+      <div class="tabla-envoltura">
+        <table class="tabla" id="tabla-semanas"></table>
+      </div>
+    </div>
+
+    <!-- ===== Ejercicios y errores ===== -->
+    <div class="hoja" data-hoja="ejercicios" hidden>
+      <h2 class="titulo-hoja">Ejercicios más trabados</h2>
+      <p class="nota">Ordenados por cantidad de estudiantes que se trabaron. «Escalón» es la pista más alta que se llegó a dar, en promedio.</p>
+      <div class="tabla-envoltura">
+        <table class="tabla" id="tabla-ejercicios"></table>
+      </div>
+      <h2 class="titulo-hoja">Errores frecuentes</h2>
+      <p class="nota">Veces que el tutor nombró cada error del registro. E10 cuenta los pedidos directos de la respuesta.</p>
+      <div class="tabla-envoltura">
+        <table class="tabla" id="tabla-errores"></table>
+      </div>
+    </div>
+
+    <!-- ===== Conversaciones ===== -->
+    <div class="hoja" data-hoja="conversaciones" hidden>
+      <div class="selector">
+        <label for="selector-estudiante">Estudiante</label>
+        <select id="selector-estudiante"></select>
+      </div>
+      <div id="conversacion"></div>
+    </div>
+
+    <!-- ===== Exportar ===== -->
+    <div class="hoja" data-hoja="exportar" hidden>
+      <p class="nota">Archivos CSV separados por punto y coma, con coma decimal: se abren directo en Excel o en Hojas de cálculo.</p>
+      <ul class="exportes">
+        <li><button type="button" class="boton boton-secundario" data-csv="estudiantes">Estudiantes</button><span>Todas las métricas por estudiante, con los ejercicios abordados y resueltos.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="curso">Curso</button><span>Las mismas métricas para el curso entero.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="semanas">Ingresos por semana</button><span>Estudiantes por semanas, con el total del curso.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="sesiones">Sesiones</button><span>Cada sesión: inicio, última actividad, minutos, dispositivo y turnos.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="ejercicios">Ejercicios</button><span>Abordados, trabados y resueltos por ejercicio del banco.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="errores">Errores</button><span>Errores del registro por código.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="costo">Costo</button><span>Turnos del día y del mes y costo estimado.</span></li>
+        <li><button type="button" class="boton boton-secundario" data-csv="mensajes">Conversaciones</button><span>Todos los mensajes, con el metadato de cada respuesta del tutor.</span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-quote">"La matemática no exige genios, exige constancia."</div>
+    <div class="footer-lab">
+      <div class="lab-name"><span class="bullet"></span><span class="lab">laboratorio</span><span class="best">best</span><span class="ia">-IA</span></div>
+      <div class="lab-sub">Prof. Ariel L. Cardozo Delgado</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
