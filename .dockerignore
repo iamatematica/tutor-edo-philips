@@ -1,0 +1,12 @@
+.git
+.claude
+datos
+docs
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.env
+.env.*
+server/tests
+requirements-dev.txt
+node_modules
